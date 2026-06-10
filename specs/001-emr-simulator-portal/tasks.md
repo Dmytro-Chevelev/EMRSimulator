@@ -259,13 +259,13 @@ With multiple developers:
 
 **Independent Test**: Start the API, create a patient via POST `/api/v1/patients`, restart the process, and confirm the patient is still returned by GET `/api/v1/patients`.
 
-- [ ] T052 Add `Microsoft.EntityFrameworkCore.Sqlite` and `Microsoft.EntityFrameworkCore.Design` NuGet packages to `src/EmrSimulator.Infrastructure/EmrSimulator.Infrastructure.csproj`
-- [ ] T053 [P] Create `EmrSimulatorDbContext` with `DbSet` properties for all entities in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
-- [ ] T054 [P] Add `IEntityTypeConfiguration<EmrProfile>` and `IEntityTypeConfiguration<Scenario>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EmrProfileConfiguration.cs` and `ScenarioConfiguration.cs`
-- [ ] T055 [P] Add `IEntityTypeConfiguration<Patient>`, `IEntityTypeConfiguration<Appointment>`, `IEntityTypeConfiguration<Order>`, and `IEntityTypeConfiguration<Result>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/`
-- [ ] T056 [P] Add `IEntityTypeConfiguration<MockResponse>` and `IEntityTypeConfiguration<RequestLog>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/MockResponseConfiguration.cs` and `RequestLogConfiguration.cs`
-- [ ] T057 Register `EmrSimulatorDbContext` with `UseSqlite` in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs` and add `"ConnectionStrings": { "Default": "Data Source=emrsimulator.db" }` to `src/EmrSimulator.Api/appsettings.json`
-- [ ] T058 Add initial EF Core migration named `InitialCreate` in `src/EmrSimulator.Infrastructure/Migrations/` and call `database.EnsureCreated()` in the API startup in `src/EmrSimulator.Api/Program.cs`
+- [X] T052 Add `Microsoft.EntityFrameworkCore.Sqlite` and `Microsoft.EntityFrameworkCore.Design` NuGet packages to `src/EmrSimulator.Infrastructure/EmrSimulator.Infrastructure.csproj`
+- [X] T053 [P] Create `EmrSimulatorDbContext` with `DbSet` properties for all entities in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
+- [X] T054 [P] Add `IEntityTypeConfiguration<EmrProfile>` and `IEntityTypeConfiguration<Scenario>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EmrProfileConfiguration.cs` and `ScenarioConfiguration.cs`
+- [X] T055 [P] Add `IEntityTypeConfiguration<Patient>`, `IEntityTypeConfiguration<Appointment>`, `IEntityTypeConfiguration<Order>`, and `IEntityTypeConfiguration<Result>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/`
+- [X] T056 [P] Add `IEntityTypeConfiguration<MockResponse>` and `IEntityTypeConfiguration<RequestLog>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/MockResponseConfiguration.cs` and `RequestLogConfiguration.cs`
+- [X] T057 Register `EmrSimulatorDbContext` with `UseSqlite` in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs` and add `"ConnectionStrings": { "Default": "Data Source=emrsimulator.db" }` to `src/EmrSimulator.Api/appsettings.json`
+- [X] T058 Add initial EF Core migration named `InitialCreate` in `src/EmrSimulator.Infrastructure/Migrations/` and call `database.EnsureCreated()` in the API startup in `src/EmrSimulator.Api/Program.cs`
 
 **Checkpoint**: `dotnet ef migrations list` shows `InitialCreate`. `dotnet run` starts without migration errors.
 
