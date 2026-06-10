@@ -69,3 +69,13 @@ public sealed class RequestLog : BaseEntity
     public int DurationMs { get; set; }
     public Guid? ScenarioId { get; set; }
 }
+
+public sealed class MockResponse : BaseEntity
+{
+    public Guid ScenarioId { get; set; }
+    public string RouteKey { get; set; } = string.Empty;
+    public int StatusCode { get; set; } = 200;
+    public string? Body { get; set; }
+    public string? HeadersJson { get; set; }
+    public int DelayMs { get; set; } = 0;
+}

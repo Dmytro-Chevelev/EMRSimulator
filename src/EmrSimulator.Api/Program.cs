@@ -1,17 +1,28 @@
 using EmrSimulator.Application;
 using EmrSimulator.Contracts;
 using EmrSimulator.Infrastructure;
+using EmrSimulator.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddEmrSimulatorInfrastructure();
+
+var connectionString = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddEmrSimulatorInfrastructure(connectionString);
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// Ensure the SQLite schema exists on first run
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<EmrSimulatorDbContext>();
+    db.Database.EnsureCreated();
+}
 
 app.MapGet("/api/v1/providers", (IEmrSimulatorFacade facade)
     => Results.Ok(facade.GetProviders()))

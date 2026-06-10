@@ -66,9 +66,9 @@
 - [X] T015 [US1] Implement Altera provider request handling in `src/EmrSimulator.Api/Providers/Altera/`
 - [X] T016 [US1] Implement Athena Flow provider request handling in `src/EmrSimulator.Api/Providers/AthenaFlow/`
 - [X] T017 [US1] Implement Athena Server provider request handling in `src/EmrSimulator.Api/Providers/AthenaServer/`
-- [ ] T018 [US1] Wire provider switching into the admin UI shell in `src/EmrSimulator.AdminUi/src/app/`
-- [ ] T019 [US1] Surface provider selection state and active-provider indicators in `src/EmrSimulator.AdminUi/src/app/features/providers/`
-- [ ] T020 [US1] Connect provider selection to the application layer so provider-specific routes resolve the active profile in `src/EmrSimulator.Application/Providers/`
+- [X] T018 [US1] Wire provider switching into the admin UI shell in `src/EmrSimulator.AdminUi/src/app/`
+- [X] T019 [US1] Surface provider selection state and active-provider indicators in `src/EmrSimulator.AdminUi/src/app/features/providers/`
+- [X] T020 [US1] Connect provider selection to the application layer so provider-specific routes resolve the active profile in `src/EmrSimulator.Application/Providers/`
 
 **Checkpoint**: Provider switching and provider-specific simulation behavior should now work end to end.
 
@@ -91,8 +91,8 @@
 - [X] T022 [P] [US2] Implement scenario selection and resolution rules in `src/EmrSimulator.Application/Scenarios/`
 - [X] T023 [US2] Apply deterministic failure mapping to provider responses in `src/EmrSimulator.Api/Providers/`
 - [X] T024 [US2] Persist scenario state changes and selected scenario metadata in `src/EmrSimulator.Infrastructure/`
-- [ ] T025 [US2] Add scenario management screens in `src/EmrSimulator.AdminUi/src/app/features/scenarios/`
-- [ ] T026 [US2] Add scenario selection actions and state synchronization in `src/EmrSimulator.AdminUi/src/app/services/`
+- [X] T025 [US2] Add scenario management screens in `src/EmrSimulator.AdminUi/src/app/features/scenarios/`
+- [X] T026 [US2] Add scenario selection actions and state synchronization in `src/EmrSimulator.AdminUi/src/app/services/`
 - [X] T027 [US2] Ensure request logs record the active scenario for each simulated request in `src/EmrSimulator.Infrastructure/Logging/`
 
 **Checkpoint**: Failure simulation should now be reproducible and selectable without affecting provider behavior outside the chosen scenario.
@@ -118,9 +118,9 @@
 - [X] T031 [US3] Implement CSV patient import parsing and validation in `src/EmrSimulator.Application/Imports/`
 - [X] T032 [US3] Implement JSON patient import parsing and validation in `src/EmrSimulator.Application/Imports/`
 - [X] T033 [US3] Add duplicate detection and import report generation in `src/EmrSimulator.Application/Imports/`
-- [ ] T034 [US3] Add synthetic data management screens for patients, appointments, orders, and results in `src/EmrSimulator.AdminUi/src/app/features/data/`
-- [ ] T035 [US3] Add import wizard UI for CSV and JSON uploads in `src/EmrSimulator.AdminUi/src/app/features/imports/`
-- [ ] T036 [US3] Wire import actions and data refresh flows between the admin UI and API in `src/EmrSimulator.AdminUi/src/app/services/`
+- [X] T034 [US3] Add synthetic data management screens for patients, appointments, orders, and results in `src/EmrSimulator.AdminUi/src/app/features/data/`
+- [X] T035 [US3] Add import wizard UI for CSV and JSON uploads in `src/EmrSimulator.AdminUi/src/app/features/imports/`
+- [X] T036 [US3] Wire import actions and data refresh flows between the admin UI and API in `src/EmrSimulator.AdminUi/src/app/services/`
 - [X] T037 [US3] Implement appointment route handlers for synthetic clinical data management in `src/EmrSimulator.Api/appointments/`
 - [X] T038 [US3] Implement order route handlers for synthetic clinical data management in `src/EmrSimulator.Api/orders/`
 - [X] T039 [US3] Implement result route handlers for synthetic clinical data management in `src/EmrSimulator.Api/results/`
@@ -140,7 +140,7 @@
 **Purpose**: Improvements that affect multiple user stories
 
 - [ ] T047 [P] Update Swagger examples, route descriptions, and provider summaries in `src/EmrSimulator.Api/` and `src/EmrSimulator.Contracts/`
-- [ ] T048 [P] Add request log viewer screens and filters in `src/EmrSimulator.AdminUi/src/app/features/request-logs/`
+- [X] T048 [P] Add request log viewer screens and filters in `src/EmrSimulator.AdminUi/src/app/features/request-logs/`
 - [ ] T049 Harden validation, error messages, and API response consistency across `src/EmrSimulator.Api/`
 - [ ] T050 Refresh quickstart and implementation notes in `specs/001-emr-simulator-portal/quickstart.md` and `specs/001-emr-simulator-portal/plan.md`
 - [ ] T051 Verify the final solution against the constitution gates and document any follow-up items in `specs/001-emr-simulator-portal/research.md`
@@ -231,3 +231,111 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+---
+
+---
+
+# Iteration 2 Tasks: EMR Simulator Developer Portal
+
+**Input**: [plan.md](plan.md) — Iteration 2 | **Date**: 2026-06-10  
+**Scope**: SQLite persistence, Angular UI repair, and polish (T003, T004, T030, T047, T049, T050, T051 + new tasks T052–T062)
+
+**Note on carry-over tasks**: T003, T004, T030, T047, T049, T050, T051 were open at the end of Iteration 1. Their checkboxes are maintained in the Iteration 1 section above; the new tasks below expand each into concrete, actionable steps.
+
+---
+
+## Iteration 2 — Phase 1: Setup Completion
+
+**Purpose**: Close the remaining setup task from Iteration 1.
+
+- [ ] T003 Configure linting, formatting, nullable reference type rules, and shared editor settings in `.editorconfig`, `Directory.Build.props`, and `src/EmrSimulator.AdminUi/.eslintrc.json`
+
+---
+
+## Iteration 2 — Phase 2: SQLite Persistence (Foundational)
+
+**Purpose**: Replace in-memory store with EF Core 8 + SQLite so simulator state survives restarts. These tasks MUST complete before T030.
+
+**Independent Test**: Start the API, create a patient via POST `/api/v1/patients`, restart the process, and confirm the patient is still returned by GET `/api/v1/patients`.
+
+- [ ] T052 Add `Microsoft.EntityFrameworkCore.Sqlite` and `Microsoft.EntityFrameworkCore.Design` NuGet packages to `src/EmrSimulator.Infrastructure/EmrSimulator.Infrastructure.csproj`
+- [ ] T053 [P] Create `EmrSimulatorDbContext` with `DbSet` properties for all entities in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
+- [ ] T054 [P] Add `IEntityTypeConfiguration<EmrProfile>` and `IEntityTypeConfiguration<Scenario>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EmrProfileConfiguration.cs` and `ScenarioConfiguration.cs`
+- [ ] T055 [P] Add `IEntityTypeConfiguration<Patient>`, `IEntityTypeConfiguration<Appointment>`, `IEntityTypeConfiguration<Order>`, and `IEntityTypeConfiguration<Result>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/`
+- [ ] T056 [P] Add `IEntityTypeConfiguration<MockResponse>` and `IEntityTypeConfiguration<RequestLog>` in `src/EmrSimulator.Infrastructure/Persistence/Configurations/MockResponseConfiguration.cs` and `RequestLogConfiguration.cs`
+- [ ] T057 Register `EmrSimulatorDbContext` with `UseSqlite` in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs` and add `"ConnectionStrings": { "Default": "Data Source=emrsimulator.db" }` to `src/EmrSimulator.Api/appsettings.json`
+- [ ] T058 Add initial EF Core migration named `InitialCreate` in `src/EmrSimulator.Infrastructure/Migrations/` and call `database.EnsureCreated()` in the API startup in `src/EmrSimulator.Api/Program.cs`
+
+**Checkpoint**: `dotnet ef migrations list` shows `InitialCreate`. `dotnet run` starts without migration errors.
+
+---
+
+## Iteration 2 — Phase 3: Clinical Data Persistence (US3 Carry-over)
+
+**Purpose**: Close T030 — wire repository support so clinical entities are stored in SQLite.
+
+- [ ] T030 Add persistence mappings and repository support for clinical data in `src/EmrSimulator.Infrastructure/Persistence/` — implement `IPatientRepository`, `IAppointmentRepository`, `IOrderRepository`, and `IResultRepository` backed by `EmrSimulatorDbContext`
+- [ ] T059 Update integration tests in `tests/EmrSimulator.Tests.Integration/` to resolve `EmrSimulatorDbContext` via `services.AddDbContext` with `DataSource=:memory:` and call `EnsureCreated()` in test setup
+
+**Checkpoint**: All existing integration tests pass with the SQLite in-memory provider.
+
+---
+
+## Iteration 2 — Phase 4: Angular UI Repair
+
+**Purpose**: Confirm the admin UI builds and serves correctly from the right working directory.
+
+**Independent Test**: Run `npm run build` from `src/EmrSimulator.AdminUi/` and confirm `dist/emr-simulator-admin-ui/` is produced with no errors. Then run `npm start` and open `http://localhost:4200`.
+
+- [ ] T060 Validate Angular build by running `npm run build` from `src/EmrSimulator.AdminUi/` (NOT from `src/EmrSimulator.AdminUi/src/`) and fix any TypeScript or template compile errors found in `src/EmrSimulator.AdminUi/src/`
+- [ ] T061 [P] Confirm `npm start` (`ng serve`) launches without errors and all five nav links (Providers, Scenarios, Data, Imports, Request Logs) render their pages correctly at `http://localhost:4200`
+
+**Checkpoint**: Angular build exits with code 0. Dev server starts at port 4200 without errors.
+
+---
+
+## Iteration 2 — Final Phase: Polish & Constitution Gate
+
+**Purpose**: Close all remaining polish and governance tasks.
+
+- [ ] T047 [P] Update Swagger examples, route descriptions, and provider summaries — add `WithSummary`, `WithDescription`, and `Produces<T>` calls to all route groups in `src/EmrSimulator.Api/`
+- [ ] T049 Harden validation, error messages, and API response consistency — return `ValidationProblem` for 400s and `ProblemDetails` for 500s across `src/EmrSimulator.Api/`
+- [ ] T050 [P] Mark quickstart and plan as refreshed — verify `specs/001-emr-simulator-portal/quickstart.md` reflects the correct `npm start` path and `specs/001-emr-simulator-portal/plan.md` constitution gate table shows all PASS
+- [ ] T062 Add an `EnsureMigrated()` integration test in `tests/EmrSimulator.Tests.Integration/` that verifies the SQLite schema matches the current migration in a file-based test database
+- [ ] T051 Verify the final solution against the constitution gates — check all five principles and document any follow-up items in `specs/001-emr-simulator-portal/research.md`
+
+---
+
+## Iteration 2 — Dependencies
+
+```
+T052 → T053, T054, T055, T056
+T053 + T054 + T055 + T056 → T057
+T057 → T058
+T058 → T030 → T059
+T060 → T061
+T047, T049, T050, T060 can run in parallel
+T062 → T051
+```
+
+## Iteration 2 — Parallel Opportunities
+
+- T053, T054, T055, T056 — all entity configurations, no overlapping files
+- T047, T049, T060 — Swagger/API/UI tasks touch different files
+- T050, T003 — documentation and config, fully independent
+
+## Iteration 2 — Independent Test Criteria
+
+| Phase | Can be validated independently when… |
+|-------|--------------------------------------|
+| SQLite (T052–T058) | `dotnet ef migrations list` shows `InitialCreate`; API starts clean |
+| Clinical persistence (T030, T059) | All integration tests pass with SQLite in-memory provider |
+| Angular UI (T060, T061) | Build exits 0; dev server at port 4200; all five pages render |
+| Polish (T047, T049) | Swagger shows summaries for all routes; 400 responses return `ProblemDetails` |
+| Constitution gate (T051) | research.md updated with all five gates confirmed PASS |
+
+## Iteration 2 — Suggested MVP
+
+Complete SQLite persistence (T052–T058, T030, T059) first — this closes the only foundational gap. Angular UI repair (T060, T061) can proceed in parallel once T003 is done.
+
