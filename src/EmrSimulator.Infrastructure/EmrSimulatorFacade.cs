@@ -1,10 +1,16 @@
 using EmrSimulator.Application;
+using EmrSimulator.Application.Repositories;
 using EmrSimulator.Contracts;
 using EmrSimulator.Domain;
 
 namespace EmrSimulator.Infrastructure;
 
-public sealed class EmrSimulatorFacade(InMemoryEmrSimulatorStore store) : IEmrSimulatorFacade
+public sealed class EmrSimulatorFacade(
+    InMemoryEmrSimulatorStore store,
+    IPatientRepository? patientRepository = null,
+    IAppointmentRepository? appointmentRepository = null,
+    IOrderRepository? orderRepository = null,
+    IResultRepository? resultRepository = null) : IEmrSimulatorFacade
 {
     public IReadOnlyList<ProviderSelectionDto> GetProviders()
         => store.Profiles.Select(profile => new ProviderSelectionDto(profile.Name, profile.Enabled ? "Available" : "Disabled")).ToList();
@@ -18,19 +24,35 @@ public sealed class EmrSimulatorFacade(InMemoryEmrSimulatorStore store) : IEmrSi
         return GetActiveProvider();
     }
 
-    public IReadOnlyList<PatientDto> GetPatients() => store.Patients.Select(ToDto).ToList();
+    public IReadOnlyList<PatientDto> GetPatients()
+    {
+        var patients = patientRepository?.GetAll() ?? store.Patients.ToList();
+        return patients.Select(ToDto).ToList();
+    }
 
     public PatientDto? GetPatient(Guid id)
-        => store.Patients.FirstOrDefault(p => p.Id == id) is { } patient ? ToDto(patient) : null;
+    {
+        var patient = patientRepository?.GetById(id) ?? store.Patients.FirstOrDefault(p => p.Id == id);
+        return patient is null ? null : ToDto(patient);
+    }
 
     public IReadOnlyList<AppointmentDto> GetAppointments()
-        => store.Appointments.Select(a => new AppointmentDto(a.Id, a.PatientId, a.StartTimeUtc, a.EndTimeUtc, a.ProviderName, a.Status)).ToList();
+    {
+        var appointments = appointmentRepository?.GetAll() ?? store.Appointments.ToList();
+        return appointments.Select(a => new AppointmentDto(a.Id, a.PatientId, a.StartTimeUtc, a.EndTimeUtc, a.ProviderName, a.Status)).ToList();
+    }
 
     public IReadOnlyList<OrderDto> GetOrders()
-        => store.Orders.Select(o => new OrderDto(o.Id, o.PatientId, o.OrderType, o.Status, o.PlacedAtUtc)).ToList();
+    {
+        var orders = orderRepository?.GetAll() ?? store.Orders.ToList();
+        return orders.Select(o => new OrderDto(o.Id, o.PatientId, o.OrderType, o.Status, o.PlacedAtUtc)).ToList();
+    }
 
     public IReadOnlyList<ResultDto> GetResults()
-        => store.Results.Select(r => new ResultDto(r.Id, r.PatientId, r.OrderId, r.ResultType, r.Value, r.ResultedAtUtc)).ToList();
+    {
+        var results = resultRepository?.GetAll() ?? store.Results.ToList();
+        return results.Select(r => new ResultDto(r.Id, r.PatientId, r.OrderId, r.ResultType, r.Value, r.ResultedAtUtc)).ToList();
+    }
 
     public IReadOnlyList<ScenarioDto> GetScenarios()
         => store.Scenarios.Select(s => new ScenarioDto(s.Id, s.Name, s.ScenarioType, s.IsActive, s.Seed)).ToList();
@@ -97,7 +119,10 @@ public sealed class EmrSimulatorFacade(InMemoryEmrSimulatorStore store) : IEmrSi
             var lastName = parts[3];
             var dobText = parts[4];
 
-            if (store.HasPatientExternalIdOrMrn(externalPatientId, mrn))
+            var existsInRepository = (patientRepository?.ExistsByExternalId(externalPatientId) ?? false)
+                || (patientRepository?.ExistsByMrn(mrn) ?? false);
+
+            if (existsInRepository || store.HasPatientExternalIdOrMrn(externalPatientId, mrn))
             {
                 rows.Add(new ImportRowResult(line.RowNumber, false, "Duplicate record", null));
                 rejected++;
@@ -121,7 +146,15 @@ public sealed class EmrSimulatorFacade(InMemoryEmrSimulatorStore store) : IEmrSi
                 Gender = parts.Length > 5 ? parts[5] : "Unknown"
             };
 
-            store.AddPatient(patient);
+            if (patientRepository is not null)
+            {
+                patientRepository.Add(patient);
+            }
+            else
+            {
+                store.AddPatient(patient);
+            }
+
             rows.Add(new ImportRowResult(line.RowNumber, true, null, ToDto(patient)));
             accepted++;
         }

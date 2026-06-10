@@ -39,7 +39,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Set up SQLite persistence, EF Core Fluent API mappings, and initial migrations in `src/EmrSimulator.Infrastructure/`
+- [X] T004 Set up SQLite persistence, EF Core Fluent API mappings, and initial migrations in `src/EmrSimulator.Infrastructure/` <!-- Closed by T052–T058 (Iteration 2) -->
 - [X] T005 [P] Define the base domain entities and shared value objects in `src/EmrSimulator.Domain/`
 - [X] T006 [P] Define the shared application contracts and provider abstractions in `src/EmrSimulator.Application/`
 - [X] T007 Configure `/api/v1` routing, provider route registration, and startup wiring in `src/EmrSimulator.Api/`
@@ -114,7 +114,7 @@
 
 - [X] T028 [P] [US3] Create patient, appointment, order, and result entities in `src/EmrSimulator.Domain/`
 - [X] T029 [P] [US3] Implement synthetic data services for patient, appointment, order, and result management in `src/EmrSimulator.Application/Data/`
-- [ ] T030 [US3] Add persistence mappings and repository support for clinical data in `src/EmrSimulator.Infrastructure/Persistence/`
+- [~] T030 [US3] Add persistence mappings and repository support for clinical data in `src/EmrSimulator.Infrastructure/Persistence/` <!-- Superseded — tracked in Iteration 3 Phase 1 T030 with full facade wiring -->
 - [X] T031 [US3] Implement CSV patient import parsing and validation in `src/EmrSimulator.Application/Imports/`
 - [X] T032 [US3] Implement JSON patient import parsing and validation in `src/EmrSimulator.Application/Imports/`
 - [X] T033 [US3] Add duplicate detection and import report generation in `src/EmrSimulator.Application/Imports/`
@@ -337,5 +337,126 @@ T062 → T051
 
 ## Iteration 2 — Suggested MVP
 
-Complete SQLite persistence (T052–T058, T030, T059) first — this closes the only foundational gap. Angular UI repair (T060, T061) can proceed in parallel once T003 is done.
+Complete SQLite persistence (T052–T058) first — this closes the only foundational gap. T030 and T059 are tracked in the Iteration 3 section below. Angular UI repair (T060, T061) can proceed in parallel once T003 is done.
+
+---
+
+---
+
+# Iteration 3 Tasks: EMR Simulator Developer Portal
+
+**Input**: [plan.md](plan.md) — Iteration 3 | **Date**: 2026-06-10  
+**Scope**: Clinical data repositories, Angular UI validation, and polish/constitution gate  
+**Carry-over open tasks**: T003, T030, T047, T049, T050, T059, T060, T061, T062, T063, T051
+
+---
+
+## Iteration 3 — Phase 1: Clinical Data Repositories (US3 Completion)
+
+**Purpose**: Declare repository interfaces in Application layer; back them with EF Core in Infrastructure. Satisfies T030 and enables integration tests to run against SQLite (T059).
+
+**Independent Test**: POST a patient to `/api/v1/patients`, restart the API, GET `/api/v1/patients` — the record must still be present.
+
+- [ ] T064 [P] Add `IPatientRepository` interface in `src/EmrSimulator.Application/Repositories/IPatientRepository.cs` with methods `GetAll()`, `GetById(Guid)`, `Add(Patient)`, `ExistsByMrn(string)`, `ExistsByExternalId(string)`
+- [ ] T065 [P] Add `IAppointmentRepository`, `IOrderRepository`, and `IResultRepository` interfaces in `src/EmrSimulator.Application/Repositories/` with `GetAll()` and `GetByPatientId(Guid)` methods; `IResultRepository` also exposes `GetByOrderId(Guid)`
+- [ ] T030 Implement `EfPatientRepository`, `EfAppointmentRepository`, `EfOrderRepository`, and `EfResultRepository` in `src/EmrSimulator.Infrastructure/Persistence/` backed by `EmrSimulatorDbContext`; register all four with `AddScoped` in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs`; update `src/EmrSimulator.Infrastructure/EmrSimulatorFacade.cs` to inject and use `IPatientRepository`, `IAppointmentRepository`, `IOrderRepository`, and `IResultRepository` in place of the direct `InMemoryEmrSimulatorStore` reads for patient, appointment, order, and result data
+- [ ] T059 Create `tests/EmrSimulator.Tests.Integration/SimulatorWebApplicationFactory.cs` (or update the existing custom factory if one exists) to override `AddDbContext<EmrSimulatorDbContext>` with `UseSqlite("DataSource=:memory:")` and call `db.Database.EnsureCreated()` in `ConfigureTestServices`; reference the factory in all four existing test classes (`ProviderSwitchingTests`, `ScenarioFailureTests`, `PatientImportCsvTests`, `PatientImportJsonTests`) and confirm all 4 tests still pass
+
+**Checkpoint**: `dotnet test tests/EmrSimulator.Tests.Integration/` passes. POST patient survives API restart.
+
+---
+
+## Iteration 3 — Phase 2: Angular Admin UI Validation
+
+**Purpose**: Confirm the Angular build succeeds from the correct working directory and the dev server starts.
+
+**Independent Test**: `npm run build` exits with code 0 and produces `dist/emr-simulator-admin-ui/`. `npm start` opens `http://localhost:4200` with all five nav links rendering their pages.
+
+- [ ] T060 Run `npm run build` from `src/EmrSimulator.AdminUi/` (where `angular.json` lives); fix any TypeScript or template compile errors in `src/EmrSimulator.AdminUi/src/` until build exits with code 0
+- [ ] T061 Run `npm start` from `src/EmrSimulator.AdminUi/`; confirm dev server starts at port 4200 and all five routes — `/providers`, `/scenarios`, `/data`, `/imports`, `/request-logs` — render without console errors
+
+**Checkpoint**: `npm run build` exits 0. `npm start` starts without errors. All five pages visible in browser.
+
+---
+
+## Iteration 3 — Phase 3: Setup Completion
+
+**Purpose**: Close the remaining setup task from Iteration 1.
+
+- [ ] T003 Add `.editorconfig` at the repo root (`C:\Projects\Midmark\src\EmrSimulator\.editorconfig`) with: `indent_size = 4`, `charset = utf-8-bom`, `end_of_line = crlf` for `*.cs`; `indent_size = 2`, `charset = utf-8`, `end_of_line = lf` for `*.ts`, `*.json`, `*.scss`, `*.html`; add `eslint.config.mjs` at `src/EmrSimulator.AdminUi/eslint.config.mjs` using Angular 20 flat-config format (`@angular-eslint/eslint-plugin` + `@angular-eslint/eslint-plugin-template`)
+
+---
+
+## Iteration 3 — Phase 4: Polish (Parallel)
+
+**Purpose**: Swagger enrichment, API hardening, and EF Core configuration verification.
+
+- [ ] T047 [P] Add `WithSummary(...)`, `WithDescription(...)`, and `.Produces<T>(200)` / `.ProducesProblem(400)` to all route groups in `src/EmrSimulator.Api/Program.cs`
+- [ ] T049 [P] Add `app.UseExceptionHandler(...)` or a global exception middleware in `src/EmrSimulator.Api/Program.cs` so unhandled exceptions return `ProblemDetails` (500); replace all `Results.BadRequest(new { error = ... })` returns with `Results.ValidationProblem(...)` for consistent 400 shape
+- [ ] T063 [P] Add `tests/EmrSimulator.Tests.Unit/Persistence/EntityConfigurationTests.cs` using `EmrSimulatorDbContext` with `UseSqlite("DataSource=:memory:")` to verify: `Patients` table has unique index on `Mrn`; `Scenarios` FK to `EmrProfiles` cascades; `RequestLogs` FK to `Scenarios` is nullable (do NOT use `UseInMemoryDatabase` — it bypasses SQLite constraint enforcement)
+- [ ] T062 [P] Add `tests/EmrSimulator.Tests.Integration/PersistenceSchemaTests.cs` that creates a file-based SQLite database, calls `EnsureCreated()`, and asserts the `Patients`, `Scenarios`, `RequestLogs`, `MockResponses`, `Appointments`, `Orders`, and `Results` tables exist
+- [ ] T066 [P] Add a timing assertion test in `tests/EmrSimulator.Tests.Integration/PerformanceTests.cs` that calls a provider route endpoint 10 times and asserts the average response duration is under 1000ms, satisfying SC-004
+
+---
+
+## Iteration 3 — Final Phase: Constitution Gate
+
+**Purpose**: Mark all gates PASS and close the feature.
+
+- [ ] T050 [P] Update `specs/001-emr-simulator-portal/plan.md` constitution check table to set all gates to **PASS** once T047, T049, T060 are complete; verify `specs/001-emr-simulator-portal/quickstart.md` needs no further changes
+- [ ] T051 Verify all five constitution principles against the delivered implementation and document findings (any follow-up items or confirmed compliance) in `specs/001-emr-simulator-portal/research.md`
+
+---
+
+## Iteration 3 — Dependencies
+
+```
+T064 + T065 → T030 → T059
+T060 → T061
+T047 + T049 + T060 → T050 → T051
+T063 → T051
+T062 → T051
+T003 (independent)
+T066 (independent)
+```
+
+## Iteration 3 — Parallel Opportunities
+
+- T064, T065 — different files; no shared dependencies
+- T047, T049, T063, T062, T003 — all touch different files; safe to run in parallel
+- T060, T059 — independent streams (Angular vs. backend tests)
+- T050, T051 — only after all other phases complete
+
+## Iteration 3 — Independent Test Criteria
+
+| Phase | Can be validated independently when… |
+|-------|--------------------------------------|
+| Repositories (T064–T030) | Repositories registered; `dotnet build` succeeds |
+| Integration tests (T059) | `dotnet test` Integration project passes all 4 tests |
+| Angular build (T060) | `npm run build` exits code 0 |
+| Angular serve (T061) | Dev server starts; all 5 pages render |
+| EF Core config tests (T063) | Unit test project passes new config assertions |
+| Schema test (T062) | Integration schema test creates and validates DB file |
+| Constitution gate (T051) | research.md updated; plan.md all gates PASS |
+
+## Iteration 3 — Task Summary
+
+| ID | Story | Description |
+|----|-------|-------------|
+| T064 | US3 | `IPatientRepository` interface in Application |
+| T065 | US3 | `IAppointmentRepository`, `IOrderRepository`, `IResultRepository` interfaces |
+| T030 | US3 | EF Core repository implementations + DI registration |
+| T059 | US3 | Integration test factory → SQLite in-memory |
+| T060 | UI | Angular build validation from correct directory |
+| T061 | UI | Angular dev server + five-page smoke test |
+| T003 | Setup | `.editorconfig` + `eslint.config.mjs` |
+| T047 | Polish | Swagger summaries, descriptions, typed responses |
+| T049 | Polish | ProblemDetails middleware + consistent 400 shape |
+| T063 | Tests | EF Core configuration unit tests |
+| T062 | Tests | SQLite schema migration integration test |
+| T050 | Gate | Plan constitution table → all PASS |
+| T051 | Gate | Final constitution gate in research.md |
+| T066 | Tests | SC-004 performance timing assertion |
+
+**Total new tasks this iteration**: 3 (T064, T065, T066) + 11 carry-over = **14 tasks to close the feature**
 

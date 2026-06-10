@@ -1,14 +1,15 @@
 using EmrSimulator.Application;
-using EmrSimulator.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmrSimulator.Tests.Integration;
 
-public class PatientImportCsvTests
+public class PatientImportCsvTests(SimulatorWebApplicationFactory factory) : IClassFixture<SimulatorWebApplicationFactory>
 {
     [Fact]
     public void Csv_import_rejects_duplicates()
     {
-        var facade = new EmrSimulatorFacade(new InMemoryEmrSimulatorStore());
+        using var scope = factory.Services.CreateScope();
+        var facade = scope.ServiceProvider.GetRequiredService<IEmrSimulatorFacade>();
         var csv = "EP-1001,MRN-1001,Jordan,Casey,1980-04-20,Unknown";
 
         var report = facade.ImportPatients("csv", csv);

@@ -1,4 +1,5 @@
 using EmrSimulator.Application;
+using EmrSimulator.Application.Repositories;
 using EmrSimulator.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,11 @@ public static class ServiceCollectionExtensions
             options.UseSqlite(cs));
 
         services.AddSingleton<InMemoryEmrSimulatorStore>();
-        services.AddSingleton<IEmrSimulatorFacade, EmrSimulatorFacade>();
+        services.AddScoped<IPatientRepository, EfPatientRepository>();
+        services.AddScoped<IAppointmentRepository, EfAppointmentRepository>();
+        services.AddScoped<IOrderRepository, EfOrderRepository>();
+        services.AddScoped<IResultRepository, EfResultRepository>();
+        services.AddScoped<IEmrSimulatorFacade, EmrSimulatorFacade>();
         return services;
     }
 }

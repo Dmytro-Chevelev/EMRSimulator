@@ -1,0 +1,23 @@
+{
+	"servers": {
+		"ms-docs": {
+			"url": "https://learn.microsoft.com/api/mcp",
+			"type": "http"
+		},
+		"az-devops": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"@azure-devops/mcp@latest",
+				"MidmarkDigitalEcosystem",
+				"-d",
+				"work-items",
+				"repositories",
+				"pipelines",
+				"pull-requests",
+				"artifacts"
+			]
+		}
+	}
+}
