@@ -1,0 +1,6 @@
+@EmrSimulator.Api_HostAddress = http://localhost:5288
+
+GET {{EmrSimulator.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

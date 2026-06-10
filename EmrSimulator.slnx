@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EmrSimulator.Api/EmrSimulator.Api.csproj" />
+    <Project Path="src/EmrSimulator.Application/EmrSimulator.Application.csproj" />
+    <Project Path="src/EmrSimulator.Contracts/EmrSimulator.Contracts.csproj" />
+    <Project Path="src/EmrSimulator.Domain/EmrSimulator.Domain.csproj" />
+    <Project Path="src/EmrSimulator.Infrastructure/EmrSimulator.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EmrSimulator.Tests.Contracts/EmrSimulator.Tests.Contracts.csproj" />
+    <Project Path="tests/EmrSimulator.Tests.Integration/EmrSimulator.Tests.Integration.csproj" />
+    <Project Path="tests/EmrSimulator.Tests.Unit/EmrSimulator.Tests.Unit.csproj" />
+  </Folder>
+</Solution>

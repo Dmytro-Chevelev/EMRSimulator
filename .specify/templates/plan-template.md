@@ -31,7 +31,14 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Gates should be derived from the current constitution and must at minimum verify:
+
+- Synthetic data only and no PHI exposure
+- Offline/local runtime assumptions are preserved unless explicitly documented otherwise
+- Provider routes and payloads match the scanned EMR contracts
+- Scenario-driven behavior remains deterministic and reproducible
+- Clean Architecture boundaries stay intact
+- Required tests, logs, and Swagger updates are accounted for
 
 ## Project Structure
 
@@ -53,40 +60,20 @@ specs/[###-feature]/
   for this feature. Delete unused options and expand the chosen structure with
   real paths (e.g., apps/admin, packages/something). The delivered plan must
   not include Option labels.
--->
-
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── EmrSimulator.Api/
+├── EmrSimulator.Application/
+├── EmrSimulator.Domain/
+├── EmrSimulator.Infrastructure/
+├── EmrSimulator.AdminUi/
+└── EmrSimulator.Contracts/
 
 tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
+├── EmrSimulator.Tests.Unit/
+├── EmrSimulator.Tests.Integration/
+└── EmrSimulator.Tests.Contracts/
+```
 ios/ or android/
 └── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
