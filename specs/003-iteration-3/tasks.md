@@ -18,10 +18,10 @@
 
 **Purpose**: Prepare the evidence locations and local workflow artifacts needed by all stories.
 
-- [ ] T001 Create the verification directory and iteration evidence tracker at specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T002 [P] Create the browser smoke checklist at specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T003 [P] Create the constitution gate tracker at specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T004 [P] Create an Admin UI command guard script at src/EmrSimulator.AdminUi/scripts/verify-admin-ui-root.ps1
+- [X] T001 Create the verification directory and iteration evidence tracker at specs/003-iteration-3/verification/iteration-verification.md
+- [X] T002 [P] Create the browser smoke checklist at specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T003 [P] Create the constitution gate tracker at specs/003-iteration-3/verification/constitution-gates.md
+- [X] T004 [P] Create an Admin UI command guard script at src/EmrSimulator.AdminUi/scripts/verify-admin-ui-root.ps1
 
 ---
 
@@ -31,11 +31,12 @@
 
 **CRITICAL**: Complete this phase before starting any user story verification.
 
-- [ ] T005 Confirm local Angular CLI npm scripts and exact dependency pins in src/EmrSimulator.AdminUi/package.json
-- [ ] T006 Wire the Admin UI working-directory guard into npm lifecycle scripts in src/EmrSimulator.AdminUi/package.json
-- [ ] T007 Document the canonical Admin UI working directory and wrong-directory recovery in specs/003-iteration-3/quickstart.md
-- [ ] T008 Clean stale dependency artifacts in src/EmrSimulator.AdminUi/node_modules and src/EmrSimulator.AdminUi/package-lock.json
-- [ ] T009 Run `npm install --legacy-peer-deps` from src/EmrSimulator.AdminUi and record dependency evidence in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T005 Confirm local Angular CLI npm scripts and exact dependency pins in src/EmrSimulator.AdminUi/package.json
+- [X] T006 Wire the Admin UI working-directory guard into npm lifecycle scripts in src/EmrSimulator.AdminUi/package.json
+- [X] T035 Configure Angular dev-server API proxy in src/EmrSimulator.AdminUi/angular.json and src/EmrSimulator.AdminUi/proxy.conf.json
+- [X] T007 Document the canonical Admin UI working directory and wrong-directory recovery in specs/003-iteration-3/quickstart.md
+- [X] T008 Clean stale dependency artifacts in src/EmrSimulator.AdminUi/node_modules and src/EmrSimulator.AdminUi/package-lock.json
+- [X] T009 Run `npm install --legacy-peer-deps` from src/EmrSimulator.AdminUi and record dependency evidence in specs/003-iteration-3/verification/iteration-verification.md
 
 **Checkpoint**: The Admin UI dependency graph is clean and npm commands execute from the correct workspace root.
 
@@ -49,16 +50,17 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Run `npm run build` from src/EmrSimulator.AdminUi and record exit code, build duration, and dist output evidence in specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T011 [US1] Validate the wrong-directory guard from src/EmrSimulator.AdminUi/src and record the actionable output in specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T012 [US1] Start the API with `dotnet run --project src/EmrSimulator.Api/EmrSimulator.Api.csproj` from the repository root and record the API URL in specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T013 [US1] Start the Admin UI with `npm start` from src/EmrSimulator.AdminUi and record 30-second startup plus HTTP 200 evidence in specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T014 [US1] Verify http://localhost:4200/providers renders and `/api/v1/providers` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T015 [US1] Verify http://localhost:4200/scenarios renders and `/api/v1/scenarios` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T016 [US1] Verify http://localhost:4200/data renders and `/api/v1/patients`, `/api/v1/appointments`, `/api/v1/orders`, and `/api/v1/results` return 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T017 [US1] Verify http://localhost:4200/imports renders without console errors, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T018 [US1] Verify http://localhost:4200/request-logs renders and `/api/v1/request-logs` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
-- [ ] T019 [US1] Verify navigation across all five Admin UI links preserves SPA routing and record contract C3-008 results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T010 [US1] Run `npm run build` from src/EmrSimulator.AdminUi and record exit code, build duration, and dist output evidence in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T011 [US1] Validate the wrong-directory guard from src/EmrSimulator.AdminUi/src and record the actionable output in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T012 [US1] Start the API with `dotnet run --project src/EmrSimulator.Api/EmrSimulator.Api.csproj` from the repository root and record the API URL in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T013 [US1] Start the Admin UI with `npm start` from src/EmrSimulator.AdminUi and record 30-second startup plus HTTP 200 evidence in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T014 [US1] Verify http://localhost:4200/providers renders and `/api/v1/providers` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T015 [US1] Verify http://localhost:4200/scenarios renders and `/api/v1/scenarios` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T016 [US1] Verify http://localhost:4200/data renders and `/api/v1/patients`, `/api/v1/appointments`, `/api/v1/orders`, and `/api/v1/results` return 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T017 [US1] Verify http://localhost:4200/imports renders without console errors, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T018 [US1] Verify http://localhost:4200/request-logs renders and `/api/v1/request-logs` returns 200, recording results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T019 [US1] Verify navigation across all five Admin UI links preserves SPA routing and record contract C3-008 results in specs/003-iteration-3/verification/admin-ui-smoke-test.md
+- [X] T036 [US1] Add explicit favicon handling in src/EmrSimulator.AdminUi/src/index.html so browser smoke checks do not emit `/favicon.ico` 404 console errors
 
 **Checkpoint**: User Story 1 is complete when C3-001 through C3-008 are all recorded as passing.
 
@@ -72,14 +74,14 @@
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Run `dotnet test` from the repository root and record the 17-test result in specs/003-iteration-3/verification/iteration-verification.md
-- [ ] T021 [US2] Populate Principle I synthetic-data evidence in specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T022 [US2] Populate Principle II provider-contract evidence in specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T023 [US2] Populate Principle III deterministic-scenario evidence in specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T024 [US2] Populate Principle IV Clean Architecture evidence in specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T025 [US2] Populate Principle V observable-tested-versioned evidence from Admin UI build, smoke checks, and `dotnet test` in specs/003-iteration-3/verification/constitution-gates.md
-- [ ] T026 [US2] Update D006 to Resolved with Angular build evidence in specs/002-next-iteration/verification/diagnostics-log.md
-- [ ] T027 [US2] Resolve any non-Pass gate or stop iteration closure, then confirm all gates are `Pass` in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T020 [US2] Run `dotnet test` from the repository root and record the 17-test result in specs/003-iteration-3/verification/iteration-verification.md
+- [X] T021 [US2] Populate Principle I synthetic-data evidence in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T022 [US2] Populate Principle II provider-contract evidence in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T023 [US2] Populate Principle III deterministic-scenario evidence in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T024 [US2] Populate Principle IV Clean Architecture evidence in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T025 [US2] Populate Principle V observable-tested-versioned evidence from Admin UI build, smoke checks, and `dotnet test` in specs/003-iteration-3/verification/constitution-gates.md
+- [X] T026 [US2] Update D006 to Resolved with Angular build evidence in specs/002-next-iteration/verification/diagnostics-log.md
+- [X] T027 [US2] Resolve any non-Pass gate or stop iteration closure, then confirm all gates are `Pass` in specs/003-iteration-3/verification/constitution-gates.md
 
 **Checkpoint**: User Story 2 is complete when all five gate statuses are `Pass` and Gate V has objective evidence.
 
@@ -93,9 +95,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T028 [US3] Confirm the Next Increment Candidates table contains at least two candidates with rationale in specs/003-iteration-3/research.md
-- [ ] T029 [US3] Add a selected-candidate handoff note or selection criteria for future `/speckit.specify` input in specs/003-iteration-3/research.md
-- [ ] T030 [US3] Update the Phase 2 gate closure and next-increment summary in specs/003-iteration-3/plan.md
+- [X] T028 [US3] Confirm the Next Increment Candidates table contains at least two candidates with rationale in specs/003-iteration-3/research.md
+- [X] T029 [US3] Add a selected-candidate handoff note or selection criteria for future `/speckit.specify` input in specs/003-iteration-3/research.md
+- [X] T030 [US3] Update the Phase 2 gate closure and next-increment summary in specs/003-iteration-3/plan.md
 
 **Checkpoint**: User Story 3 is complete when planning can begin for the next feature without new discovery.
 
@@ -105,10 +107,10 @@
 
 **Purpose**: Final review and reproducibility checks across the completed iteration.
 
-- [ ] T031 [P] Validate quickstart commands end-to-end and update any command drift in specs/003-iteration-3/quickstart.md
-- [ ] T032 [P] Verify contract coverage C3-001 through C3-008 against specs/003-iteration-3/contracts/api-contract-summary.md
-- [ ] T033 Run `/speckit.analyze` for specs/003-iteration-3 and resolve any consistency findings in specs/003-iteration-3/spec.md, specs/003-iteration-3/plan.md, or specs/003-iteration-3/tasks.md
-- [ ] T034 Update README Admin UI run instructions if they diverge from specs/003-iteration-3/quickstart.md
+- [X] T031 [P] Validate quickstart commands end-to-end and update any command drift in specs/003-iteration-3/quickstart.md
+- [X] T032 [P] Verify contract coverage C3-001 through C3-008 against specs/003-iteration-3/contracts/api-contract-summary.md
+- [X] T033 Run `/speckit.analyze` for specs/003-iteration-3 and resolve any consistency findings in specs/003-iteration-3/spec.md, specs/003-iteration-3/plan.md, or specs/003-iteration-3/tasks.md
+- [X] T034 Update README Admin UI run instructions if they diverge from specs/003-iteration-3/quickstart.md
 
 ---
 

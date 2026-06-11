@@ -38,7 +38,7 @@ Iteration 3 has one primary technical goal and two supporting goals:
 | II - Provider contract fidelity | **Pass** | No new provider routes; Admin UI calls existing `/api/v1` endpoints |
 | III - Deterministic scenarios | **Pass** | No scenario engine changes; UI exposes existing scenario state |
 | IV - Clean Architecture boundaries | **Pass** | Angular SPA communicates only through the API surface; no boundary changes |
-| V - Observable, tested, versioned changes | **IN PROGRESS** | Angular build and serve evidence will be captured; 17 existing tests must remain green |
+| V - Observable, tested, versioned changes | **Pass** | Angular build and serve evidence captured; 17 existing tests passed |
 
 Post-Phase-1 re-check target: all five gates at `Pass` with evidence recorded. A non-Pass gate is not an accepted final state for Iteration 3; it must be converted into follow-up work and resolved before closure.
 
@@ -85,7 +85,11 @@ specs/003-iteration-3/
 
 ```text
 src/EmrSimulator.AdminUi/
+├── angular.json
+├── proxy.conf.json
 ├── package.json
+├── src/
+│   └── index.html
 └── scripts/
    └── verify-admin-ui-root.ps1
 ```
@@ -93,6 +97,8 @@ src/EmrSimulator.AdminUi/
 Planned source changes are intentionally narrow:
 
 - `src/EmrSimulator.AdminUi/package.json`: remove `npx` prefixes from npm scripts, pin remaining ranged versions, and wire the working-directory guard into npm lifecycle scripts.
+- `src/EmrSimulator.AdminUi/angular.json` and `src/EmrSimulator.AdminUi/proxy.conf.json`: proxy `/api` calls from the Angular dev server to the API at `http://localhost:5288` so browser route checks exercise the real backend without CORS or 404 errors.
+- `src/EmrSimulator.AdminUi/src/index.html`: declare an explicit empty favicon so browser smoke checks do not emit `/favicon.ico` 404 console errors.
 - `src/EmrSimulator.AdminUi/scripts/verify-admin-ui-root.ps1`: fail fast with actionable guidance when commands are run from a directory that does not contain `angular.json`.
 
 All Angular routes, components, .NET source, tests, and infrastructure files are unchanged.
@@ -116,6 +122,8 @@ See [research.md](research.md). Key findings:
 **Scripts**: Remove `npx` prefix and invoke local Angular CLI through npm, for example `ng serve`, `ng build`, and `ng test`.
 
 **Guard integration**: Add npm lifecycle hooks or script composition that runs `scripts/verify-admin-ui-root.ps1` before build, start, and test commands so wrong-directory execution produces a clear correction.
+
+**Dev proxy**: Configure Angular serve to use `proxy.conf.json`, forwarding `/api` to `http://localhost:5288`.
 
 **Pin remaining ranges**:
 
@@ -168,6 +176,10 @@ After the Angular build and serve checks pass:
 3. Update `specs/003-iteration-3/verification/iteration-verification.md` with install, build, serve, wrong-directory guard, and `dotnet test` evidence.
 4. Update `specs/003-iteration-3/verification/admin-ui-smoke-test.md` with C3-001 through C3-008 results.
 5. Keep `specs/003-iteration-3/research.md` ready for the next planning cycle with named candidate features and selection criteria.
+
+### Implementation Status
+
+Iteration 3 closed the Admin UI build and browser smoke gate. The Angular app now builds from a clean install, fails fast for wrong-directory npm execution, proxies `/api` calls to the local API during development, and renders all five Admin UI routes in headless Edge with zero console errors. All five constitution gates are recorded as `Pass`; the recommended next increment remains CI/CD pipeline unless onboarding friction makes Docker Compose packaging more urgent.
 
 ## Complexity Tracking
 

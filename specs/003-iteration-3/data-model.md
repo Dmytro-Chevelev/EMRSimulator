@@ -3,8 +3,10 @@
 This iteration introduces no new runtime data entities. The changes are confined to:
 
 1. `package.json` (build tooling configuration)
-2. `src/EmrSimulator.AdminUi/scripts/verify-admin-ui-root.ps1` (command guard)
-3. Iteration verification and gate closure artifacts (planning documents only)
+2. `src/EmrSimulator.AdminUi/angular.json` and `proxy.conf.json` (dev-server API proxy)
+3. `src/EmrSimulator.AdminUi/src/index.html` (favicon console-noise prevention)
+4. `src/EmrSimulator.AdminUi/scripts/verify-admin-ui-root.ps1` (command guard)
+5. Iteration verification and gate closure artifacts (planning documents only)
 
 ## Planning Entities (documentation only, not persisted)
 

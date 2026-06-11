@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "prestart": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/verify-admin-ui-root.ps1",
     "start": "ng serve",
+    "prebuild": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/verify-admin-ui-root.ps1",
     "build": "ng build",
+    "pretest": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/verify-admin-ui-root.ps1",
     "test": "ng test"
   },
   "dependencies": {

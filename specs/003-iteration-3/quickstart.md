@@ -17,7 +17,9 @@ cd C:\Projects\Midmark\src\EmrSimulator
 dotnet run --project src/EmrSimulator.Api/EmrSimulator.Api.csproj
 ```
 
-Leave this terminal running. The API starts at `https://localhost:5001` (or the port shown in output).
+Leave this terminal running. The default development profile starts the API at `http://localhost:5288`.
+
+If you override the API URL, update `src/EmrSimulator.AdminUi/proxy.conf.json` so the Angular dev server forwards `/api` to the same backend.
 
 ---
 
@@ -30,7 +32,7 @@ cd C:\Projects\Midmark\src\EmrSimulator\src\EmrSimulator.AdminUi
 ```
 
 > **Important**: All `npm` commands MUST be run from this directory (where `angular.json` lives).  
-> Running from `src/EmrSimulator.AdminUi/src` or the repo root will fail.
+> Running from `src/EmrSimulator.AdminUi/src` or the repo root will fail with an actionable guard message that points back to this directory.
 
 If `node_modules` is absent or you need a clean install:
 
@@ -65,6 +67,8 @@ npm start
 Expected: `Application bundle generation complete. [X.XXX seconds]` then  
 `Watch mode enabled. Watching for file changes...`
 
+The dev server proxies `/api` requests to `http://localhost:5288`, so keep the API running from Step 1 while browsing the Admin UI.
+
 Open a browser and navigate to `http://localhost:4200`.
 
 ---
@@ -90,6 +94,7 @@ Open Browser DevTools (F12) → Console tab → confirm zero errors on each page
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
 | `ng is not recognized` | Running `ng` directly outside npm script | Use `npm run build` / `npm start`, not `ng build` / `ng serve` |
+| `Admin UI commands must be run from src/EmrSimulator.AdminUi` | Running an npm script from the wrong directory | Change to `C:\Projects\Midmark\src\EmrSimulator\src\EmrSimulator.AdminUi` and rerun the command |
 | `could not determine executable to run` | `node_modules` missing | Run `npm install --legacy-peer-deps` first |
 | `Cannot find module '@angular/core'` | Corrupted incremental install | Delete `node_modules` + `package-lock.json`, reinstall |
 | `Cannot find module 'nanoid/non-secure'` | nanoid upgraded past v3 | Check `package.json` — `nanoid` must be `"3.3.7"` exactly |

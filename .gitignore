@@ -8,6 +8,9 @@ tests/**/obj/
 *.suo
 *.cache
 *.log
+*.db
+*.db-shm
+*.db-wal
 *.vspscc
 *.vssscc
 
@@ -16,6 +19,7 @@ node_modules/
 src/EmrSimulator.AdminUi/node_modules/
 dist/
 build/
+src/EmrSimulator.AdminUi/.angular/
 
 # Environment and temp files
 .env*
