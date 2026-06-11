@@ -22,6 +22,11 @@ Default development URLs:
 - API and Swagger: `http://localhost:5288/swagger`
 - Admin/control API prefix: `http://localhost:5288/api/v1`
 
+Default local SQLite storage:
+
+- `.data/emrsimulator.db` from the repository root unless an operator overrides the connection string.
+- The stable path keeps restart persistence and reset behavior consistent regardless of the API launch working directory.
+
 ## Run Admin UI
 
 From the Angular workspace root:
@@ -81,8 +86,9 @@ Expected result: connector completes launch, token, patient/report lookup, devic
 - Vitals posting: `POST /cas/api/v1/chartdoc/discrete`
 - HL7: send MLLP-framed ADT message to configured local listener
 - Midmark-facing service: `/api/v1/ADTPatients/...`, `/api/v1/Physicians`, `/api/v1/HL7Messages...`
+- DB-backed patient list: `GET /api/v1/cerner/patients`
 
-Expected result: connector can authenticate, resolve patient/encounter context, register a device, post vitals, exchange HL7 messages, and retrieve logged evidence.
+Expected result: connector can authenticate, resolve patient/encounter context, list all current synthetic database patients, register a device, post vitals, exchange HL7 messages, and retrieve logged evidence. A fresh local database includes 15 default synthetic patient records; later synthetic imports are included in the Cerner patient list until reset.
 
 ### Athena/Centricity
 
@@ -130,4 +136,8 @@ Planned feature verification should include:
 
 ## Reset Behavior
 
-Use the planned simulator reset operation to clear generated state, request logs, and verification evidence. Reset must not remove endpoint contract definitions or default provider profiles. After reset, deterministic seed data is restored and generated reports, device registrations, messages, documents, settings, and evidence from prior runs are no longer returned.
+Use the planned simulator reset operation to clear generated state, imported/generated synthetic patients, request logs, and verification evidence. Reset must not remove endpoint contract definitions or default provider profiles. After reset, the 15 default synthetic patient records are restored and generated reports, device registrations, messages, documents, settings, imported/generated patient records, and evidence from prior runs are no longer returned.
+
+## Provider Contract Typing
+
+Provider-facing request and response shapes should be implemented as typed provider contract DTOs or records in `EmrSimulator.Contracts`. Avoid anonymous or generic `object` payload shapes for connector-facing behavior so contract tests can detect drift from the source inventories.

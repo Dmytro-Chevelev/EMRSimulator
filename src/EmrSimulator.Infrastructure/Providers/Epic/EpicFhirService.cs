@@ -1,13 +1,11 @@
+using EmrSimulator.Contracts.Epic;
+
 namespace EmrSimulator.Infrastructure.Providers.Epic;
 
 public sealed class EpicFhirService(EpicLaunchOAuthService inner)
 {
-    public object Metadata() => new
-    {
-        resourceType = "CapabilityStatement",
-        status = "active",
-        rest = new[] { new { mode = "server" } }
-    };
+    public EpicFhirCapabilityResponse Metadata()
+        => new("CapabilityStatement", "active", [new EpicFhirCapabilityRestResponse("server")]);
 
-    public object Resource(string resource) => inner.FhirResource(resource);
+    public EpicFhirResourceResponse Resource(string resource) => inner.FhirResource(resource);
 }

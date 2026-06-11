@@ -4,6 +4,12 @@ public sealed record UnityTokenResponse(string SecurityToken, string Status);
 
 public sealed record UnityOperationResponse(string Operation, string Status, string Payload);
 
+public sealed record UnityBrowserRouteResponse(string Route, string Url, string Status);
+
+public sealed record UnityFrameworkOperationResponse(string Operation, string Status, string FileBlock);
+
+public sealed record UnityVerificationRecordResponse(string Provider, string Operation, bool Verified);
+
 public static class UnitySampleBuilder
 {
     public static UnityTokenResponse Token() => new("synthetic-unity-token", "Valid");

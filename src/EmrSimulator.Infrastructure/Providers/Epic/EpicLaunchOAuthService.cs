@@ -5,22 +5,20 @@ namespace EmrSimulator.Infrastructure.Providers.Epic;
 
 public sealed class EpicLaunchOAuthService : IEpicSimulatorService
 {
-    public object Launch(string? launchToken, string? issuer) => EpicSampleBuilder.Launch(launchToken, issuer);
+    public EpicLaunchResponse Launch(string? launchToken, string? issuer) => EpicSampleBuilder.Launch(launchToken, issuer);
 
-    public object Token() => EpicSampleBuilder.Token();
+    public EpicTokenResponse Token() => EpicSampleBuilder.Token();
 
-    public object FhirResource(string resource)
-        => new
-        {
-            resourceType = ResolveResourceType(resource),
-            id = resource.Split('/', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "EP-1001",
-            patient = "EP-1001",
-            status = "synthetic"
-        };
+    public EpicFhirResourceResponse FhirResource(string resource)
+        => new(
+            ResolveResourceType(resource),
+            resource.Split('/', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "EP-1001",
+            "EP-1001",
+            "synthetic");
 
-    public object Report(string? reportId = null) => EpicSampleBuilder.Report(reportId ?? "RPT-1001");
+    public EpicReportResponse Report(string? reportId = null) => EpicSampleBuilder.Report(reportId ?? "RPT-1001");
 
-    public object Device(string status) => EpicSampleBuilder.Device(status);
+    public EpicDeviceWorkflowResponse Device(string status) => EpicSampleBuilder.Device(status);
 
     private static string ResolveResourceType(string resource)
     {

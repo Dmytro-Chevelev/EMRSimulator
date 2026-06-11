@@ -1,6 +1,8 @@
+using EmrSimulator.Contracts.Cerner;
+
 namespace EmrSimulator.Infrastructure.Providers.Cerner;
 
 public sealed class CernerVerificationRecorder
 {
-    public object Record(string route) => new { provider = "Cerner", route, verified = true };
+    public CernerVerificationRecordResponse Record(string route) => new("Cerner", route, true);
 }

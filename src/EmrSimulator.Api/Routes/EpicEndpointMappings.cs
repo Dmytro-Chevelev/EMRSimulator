@@ -1,3 +1,4 @@
+using EmrSimulator.Contracts.Epic;
 using EmrSimulator.Infrastructure.Providers.Epic;
 
 namespace EmrSimulator.Api.Routes;
@@ -12,7 +13,7 @@ public static class EpicEndpointMappings
         app.MapGet("/Midmark/Redirect", (EpicLaunchOAuthService service)
             => Results.Ok(service.Launch("synthetic-launch", "http://localhost:5288/FHIR/R4")));
 
-        app.MapGet("/Midmark/Close", () => Results.Ok(new { status = "Closed" }));
+        app.MapGet("/Midmark/Close", () => Results.Ok(new EpicCloseResponse("Closed")));
 
         app.MapPost("/oauth2/token", (EpicLaunchOAuthService service) => Results.Ok(service.Token()));
         app.MapGet("/metadata", (EpicFhirService service) => Results.Ok(service.Metadata()));
@@ -29,9 +30,9 @@ public static class EpicEndpointMappings
         app.MapGet("/api/v1/Reports/deviceId/{deviceId}", (string deviceId, EpicReportsService service) => Results.Ok(service.List(deviceId)));
         app.MapGet("/api/v1/Reports/reportId/{reportId}", (string reportId, EpicReportsService service) => Results.Ok(service.Get(reportId)));
         app.MapPost("/api/v1/Reports/SaveReport", (EpicReportsService service) => Results.Ok(service.Save()));
-        app.MapGet("/api/v1/Reports/GetDataFile", () => Results.Ok(new { fileId = "DATA-1001", status = "Available" }));
+        app.MapGet("/api/v1/Reports/GetDataFile", () => Results.Ok(new EpicReportDataFileResponse("DATA-1001", "Available")));
         app.MapPost("/api/v1/Reports/ReviewReport/{reportId}", (string reportId, EpicReportsService service) => Results.Ok(service.Get(reportId)));
-        app.MapPost("/api/v1/Reports/CompareReports", () => Results.Ok(new { comparisonId = "CMP-1001", status = "Compared" }));
+        app.MapPost("/api/v1/Reports/CompareReports", () => Results.Ok(new EpicReportComparisonResponse("CMP-1001", "Compared")));
         app.MapPost("/api/v1/Reports/Convert/{reportType}/{reportId}", (string reportType, string reportId, EpicReportsService service) => Results.Ok(service.Get(reportId)));
 
         app.MapPost("/api/v1/DeviceWorkflow/start", (EpicDeviceWorkflowService service) => Results.Ok(service.Start()));
@@ -39,7 +40,7 @@ public static class EpicEndpointMappings
         app.MapPost("/api/v1/DeviceWorkflow/launcher", (EpicDeviceWorkflowService service) => Results.Ok(service.RegisterLauncher()));
         app.MapPost("/api/v1/Devices/StartTest", (EpicDeviceWorkflowService service) => Results.Ok(service.Start()));
         app.MapPost("/api/v1/Devices/Abort", (EpicDeviceWorkflowService service) => Results.Ok(service.Abort()));
-        app.MapPost("/api/v1/Authenticate/Auth", () => Results.Ok(new { status = "Authenticated", scheme = "Synthetic" }));
+        app.MapPost("/api/v1/Authenticate/Auth", () => Results.Ok(new EpicAuthenticationResponse("Authenticated", "Synthetic")));
         app.MapPost("/api/v1/Register/Launcher", (EpicDeviceWorkflowService service) => Results.Ok(service.RegisterLauncher()));
 
         app.MapPost("/api/v1/epic/verification/{route}", (string route, EpicVerificationRecorder recorder) => Results.Ok(recorder.Record(route)));

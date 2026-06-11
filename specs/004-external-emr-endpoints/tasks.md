@@ -173,20 +173,20 @@
 - [X] T086 [P] [US4] Add endpoint coverage API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/EndpointCoverageApiTests.cs`
 - [X] T087 [P] [US4] Add reset API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/SimulatorResetApiTests.cs`
 - [X] T088 [P] [US4] Add verification evidence API tests in `tests/EmrSimulator.Tests.Integration/Admin/VerificationEvidenceApiTests.cs`
-- [ ] T089 [P] [US4] Add Admin UI coverage component tests in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.spec.ts`
-- [ ] T090 [P] [US4] Add Admin UI reset/log component tests in `src/EmrSimulator.AdminUi/src/app/request-logs/request-logs.component.spec.ts`
+- [X] T089 [P] [US4] Add Admin UI coverage component tests in `src/EmrSimulator.AdminUi/src/app/features/compatibility/compatibility-page.component.spec.ts`
+- [X] T090 [P] [US4] Add Admin UI reset/log component tests in `src/EmrSimulator.AdminUi/src/app/features/request-logs/request-logs-page.component.spec.ts`
 
 ### Implementation for User Story 4
 
 - [X] T091 [US4] Add endpoint coverage and verification methods to facade contract in `src/EmrSimulator.Application/ApplicationContracts.cs`
 - [X] T092 [US4] Implement endpoint coverage, verification evidence, and reset facade behavior in `src/EmrSimulator.Infrastructure/EmrSimulatorFacade.cs`
-- [ ] T093 [US4] Add admin/control API DTO mappings for coverage, evidence, and reset in `src/EmrSimulator.Api/EndpointMapping/AdminEndpointMappings.cs`
+- [X] T093 [US4] Add admin/control API DTO mappings for coverage, evidence, and reset in `src/EmrSimulator.Api/Program.cs`
 - [X] T094 [US4] Add endpoint coverage API client methods in `src/EmrSimulator.AdminUi/src/app/services/emr-simulator-api.service.ts`
 - [X] T095 [P] [US4] Add endpoint coverage TypeScript models in `src/EmrSimulator.AdminUi/src/app/models/endpoint-coverage.model.ts`
 - [X] T096 [US4] Implement endpoint coverage view in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.ts`
 - [X] T097 [US4] Implement endpoint coverage template in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.html`
 - [X] T098 [US4] Implement endpoint coverage styles in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.scss`
-- [ ] T099 [US4] Add reset controls and verification evidence to request logs view in `src/EmrSimulator.AdminUi/src/app/request-logs/request-logs.component.ts`
+- [X] T099 [US4] Add reset controls and verification evidence to request logs view in `src/EmrSimulator.AdminUi/src/app/features/request-logs/request-logs-page.component.ts`
 - [X] T100 [US4] Add navigation route for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.routes.ts`
 - [X] T101 [US4] Update Admin UI shell navigation for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.html`
 - [X] T102 [US4] Document operator coverage and reset workflow in `specs/004-external-emr-endpoints/verification/operator-coverage-smoke-test.md`
@@ -200,9 +200,9 @@
 **Purpose**: Final hardening, docs, validation, and compatibility evidence across all stories.
 
 - [X] T103 [P] Update local run and connector configuration instructions in `README.md`
-- [ ] T104 [P] Update source endpoint implementation status notes in `.docs/external-emr-endpoints.md`
-- [ ] T105 [P] Update contract inventory implementation status notes in `.docs/external-emr-api-contracts.md`
-- [ ] T106 Add Swagger/OpenAPI summaries for `/api/v1` admin/control routes and document native HTTP compatibility route taxonomy in `src/EmrSimulator.Api/Program.cs`
+- [X] T104 [P] Update source endpoint implementation status notes in `.docs/external-emr-endpoints.md`
+- [X] T105 [P] Update contract inventory implementation status notes in `.docs/external-emr-api-contracts.md`
+- [X] T106 Add Swagger/OpenAPI summaries for `/api/v1` admin/control routes and document native HTTP compatibility route taxonomy in `src/EmrSimulator.Api/Program.cs`
 - [X] T107 Add complete endpoint coverage verification results in `specs/004-external-emr-endpoints/verification/coverage-results.md`
 - [X] T108 Run and record backend test results in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
 - [X] T109 Run and record Admin UI build result in `specs/004-external-emr-endpoints/verification/implementation-verification.md`

@@ -4,6 +4,7 @@ src/**/bin/
 src/**/obj/
 tests/**/bin/
 tests/**/obj/
+packages/
 *.user
 *.suo
 *.cache
@@ -19,9 +20,13 @@ node_modules/
 src/EmrSimulator.AdminUi/node_modules/
 dist/
 build/
+coverage/
 src/EmrSimulator.AdminUi/.angular/
 
 # Environment and temp files
+.data/
+.vs/
+.idea/
 .env*
 *.tmp
 *.swp

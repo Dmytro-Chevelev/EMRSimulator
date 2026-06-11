@@ -11,7 +11,7 @@ public sealed class SoapEnvelopeService : IUnitySimulatorService
         return UnitySampleBuilder.SoapEnvelope(operation);
     }
 
-    public object BrowserRoute(string routeName) => new { route = routeName, url = $"/{routeName}.aspx?synthetic=true", status = "Ready" };
+    public UnityBrowserRouteResponse BrowserRoute(string routeName) => new(routeName, $"/{routeName}.aspx?synthetic=true", "Ready");
 
     private static string ResolveOperation(string? soapAction, string body)
     {

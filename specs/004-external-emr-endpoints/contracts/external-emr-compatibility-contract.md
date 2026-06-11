@@ -9,8 +9,10 @@ This contract defines the planned simulator compatibility surface for existing E
 - All default data and credentials are synthetic.
 - Every protected flow validates provider-compatible synthetic credentials, tokens, or headers.
 - Contract validation accepts documented shapes plus known serializer variants: PascalCase or camelCase property names, and string or numeric enum values.
+- Provider-facing request and response payloads are represented by typed provider contract DTOs/records, not generic `object` or anonymous payload shapes.
 - Every request is logged with provider, endpoint/operation, protocol, scenario, status, validation/auth outcome, correlation/session identifier when available, and redacted metadata.
-- Generated reports, device registrations, documents, messages, request logs, and verification evidence persist until operator reset.
+- Generated reports, device registrations, documents, messages, imported/generated synthetic patients, request logs, and verification evidence persist until operator reset.
+- The default SQLite database uses a stable repo-local data folder such as `.data/emrsimulator.db` unless an operator explicitly overrides the connection string.
 - Native connector paths and protocol expectations are preserved. Do not rename documented connector endpoints to `/api/v1` equivalents unless the source contract already uses `/api/v1`.
 
 ## Admin and Control API Surface
@@ -27,7 +29,7 @@ These routes are simulator control APIs and remain versioned under `/api/v1`.
 | `GET /api/v1/request-logs` | View simulator request logs |
 | `GET /api/v1/endpoint-contracts` | Planned: list coverage catalog from source docs |
 | `GET /api/v1/endpoint-contracts/{id}/verification` | Planned: view verification evidence for a contract |
-| `POST /api/v1/simulator/reset` | Planned: reset generated synthetic state, logs, and evidence |
+| `POST /api/v1/simulator/reset` | Reset generated synthetic state, imported/generated patients, logs, and evidence, then restore the 15 default seeded synthetic patients |
 
 ## Epic Compatibility Surface
 
@@ -148,10 +150,20 @@ All paths are relative to configured `BASE_URL`.
 | --- | --- | --- |
 | `POST` | `/api/v1/ADTPatients/PatientSearchRequest` | Search synthetic ADT patients |
 | `GET` | `/api/v1/ADTPatients/{id}` | Return ADT patient by ID |
+| `GET` | `/api/v1/cerner/patients` | Return all current synthetic database patients, including the 15 default seeded records and later synthetic imports |
+| `GET` | `/api/v1/cerner/patients/{id}` | Return a typed synthetic Cerner patient response by database ID, external patient ID, or MRN |
 | `PUT` | `/api/v1/ADTPatients/UpdateLastAccessTime` | Update synthetic last access timestamp |
 | `GET` | `/api/v1/Physicians?activeOnly={activeOnly}` | Return physician list |
 | `POST` | `/api/v1/HL7Messages` | Submit HL7 message for outbound processing/simulation |
 | `POST` | `/api/v1/HL7Messages/pendingtest/{id}` | Submit HL7 message associated with pending test |
+
+### Patient Seed and Reset Contract
+
+- Startup guarantees exactly 15 default synthetic patient seed records exist in the SQLite database.
+- Startup seeding is non-destructive and does not remove later synthetic imports.
+- Cerner patient search returns all current synthetic database patients.
+- Operator reset removes imported/generated synthetic patients and restores the 15 default seeded patients.
+- All Cerner patient, physician, and HL7 submission payloads use typed provider contract DTOs/records.
 
 ## Verification Requirements
 

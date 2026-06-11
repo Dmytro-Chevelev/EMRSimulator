@@ -1,6 +1,8 @@
+using EmrSimulator.Contracts.Unity;
+
 namespace EmrSimulator.Infrastructure.Providers.Altera;
 
 public sealed class AlteraBrowserRouteService
 {
-    public object Route(string routeName) => new { route = routeName, url = $"/{routeName}.aspx?synthetic=true", status = "Ready" };
+    public UnityBrowserRouteResponse Route(string routeName) => new(routeName, $"/{routeName}.aspx?synthetic=true", "Ready");
 }

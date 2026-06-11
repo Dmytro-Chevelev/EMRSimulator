@@ -148,6 +148,30 @@ Represents a coherent patient-centered synthetic data set for connector workflow
 - Required patient identifiers must be present for each enabled provider family.
 - Provider-specific identifiers must be stable within the scenario until reset.
 
+### DefaultSyntheticPatientSeed
+
+Represents the deterministic baseline database patient set used by Cerner Midmark ADT patient search and other provider workflows that need persisted patient rows.
+
+**Fields**:
+
+- `ExternalPatientId`: stable synthetic ADT/provider identifier such as `ADT-1001`
+- `Mrn`: unique synthetic MRN such as `MRN-1001`
+- `FirstName`
+- `LastName`
+- `DateOfBirth`
+- `Gender`
+- `Phone`
+- `Email`
+- `IsDefaultSeed`: conceptual flag or implementation-equivalent marker that identifies baseline records for reset behavior
+
+**Validation rules**:
+
+- The default seed contains exactly 15 synthetic patient records.
+- Startup seeding is non-destructive: missing defaults are inserted, and later synthetic imports are not removed.
+- `/api/v1/cerner/patients` returns all current synthetic database patients, including defaults and later synthetic imports.
+- Operator reset restores the 15 default patient records and removes imported/generated synthetic patient records.
+- Default seeded patient data must not contain PHI or real provider identifiers.
+
 ### SyntheticReportState
 
 Represents reports, PDFs, binary data, diagnostic reports, data files, calibration reports, and document images generated or saved by connector workflows.
@@ -342,4 +366,4 @@ PreparedOutbound -> Sent -> AckRecorded/Failed
 
 ## Reset Behavior
 
-Operator reset clears generated workflow state, request logs, and verification evidence for the selected scope, increments `ResetGeneration`, and reseeds deterministic default synthetic data. Reset must not delete endpoint contract definitions or default provider profiles.
+Operator reset clears generated workflow state, imported/generated synthetic patient records, request logs, and verification evidence for the selected scope, increments `ResetGeneration`, and reseeds deterministic default synthetic data. Reset must restore the 15 default synthetic patient records and must not delete endpoint contract definitions or default provider profiles.

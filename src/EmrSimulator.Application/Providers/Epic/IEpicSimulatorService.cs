@@ -1,10 +1,12 @@
+using EmrSimulator.Contracts.Epic;
+
 namespace EmrSimulator.Application.Providers.Epic;
 
 public interface IEpicSimulatorService
 {
-    object Launch(string? launchToken, string? issuer);
-    object Token();
-    object FhirResource(string resource);
-    object Report(string? reportId = null);
-    object Device(string status);
+    EpicLaunchResponse Launch(string? launchToken, string? issuer);
+    EpicTokenResponse Token();
+    EpicFhirResourceResponse FhirResource(string resource);
+    EpicReportResponse Report(string? reportId = null);
+    EpicDeviceWorkflowResponse Device(string status);
 }

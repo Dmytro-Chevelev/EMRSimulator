@@ -12,6 +12,8 @@ Notes:
 - Enum values are shown as strings for readability, but the default .NET serializers may emit numeric enum values unless configured otherwise.
 - `byte[]` payloads are represented as base64 strings.
 - Athena and Altera provider integrations are WCF/SOAP/XML rather than JSON REST APIs. Their WCF/SOAP contracts are represented here as JSON envelopes for SDD documentation.
+- Simulator provider-facing request and response payloads are implemented as typed DTOs/records in `EmrSimulator.Contracts` so contract tests can detect shape drift.
+- Simulator persistence uses repo-local `.data/emrsimulator.db` by default, seeds 15 Cerner/Midmark patient records non-destructively at startup, and reset removes imported/generated patients before restoring that default baseline.
 
 Source roots:
 
@@ -1421,6 +1423,8 @@ Sources: `Midmark.Connectors.Cerner\src\MidmarkIQiM\VitalsLinkAPILib`
 ### Cerner Midmark Web Service Contracts
 
 Sources: `Midmark.Connectors.Cerner\src\IQiMWebService\IQiMWebAPIModel`
+
+Simulator status: Cerner Midmark patient, physician, and HL7 submission responses are typed contract records. `GET /api/v1/cerner/patients` returns the current SQLite patient table, including the default 15-patient seed and later imports until operator reset.
 
 ```json
 {

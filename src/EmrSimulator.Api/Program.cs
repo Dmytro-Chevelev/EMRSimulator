@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddEmrSimulatorInfrastructure(connectionString);
+builder.Services.AddEmrSimulatorInfrastructure(connectionString, builder.Environment.ContentRootPath);
 
 var app = builder.Build();
 
@@ -28,6 +28,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<EmrSimulatorDbContext>();
     db.Database.EnsureCreated();
+    SyntheticPatientSeeder.EnsureSeeded(db);
 }
 
 app.Use(async (context, next) =>
@@ -201,7 +202,7 @@ app.MapPost("/api/v1/simulator/reset", (IEmrSimulatorFacade facade)
     => Results.Ok(facade.ResetSyntheticState()))
     .WithName("ResetSimulatorState")
     .WithSummary("Reset generated synthetic simulator state")
-    .WithDescription("Clears generated reports, device registrations, documents, messages, request logs, and verification evidence while preserving endpoint definitions and default provider profiles.")
+    .WithDescription("Clears generated reports, device registrations, documents, messages, imported/generated patients, request logs, and verification evidence, then restores the 15 default synthetic patients while preserving endpoint definitions and default provider profiles.")
     .Produces<SimulatorResetResult>(StatusCodes.Status200OK)
     .WithOpenApi();
 
@@ -248,6 +249,7 @@ app.MapGet("/api/v1/emr/{provider}/patients/{patientId}", (string provider, stri
     .ProducesProblem(StatusCodes.Status500InternalServerError)
     .WithOpenApi();
 
+    // Native compatibility taxonomy: Epic HTTP/FHIR/report/device routes, Cerner VitalsLink/ADT HTTP routes, and Unity/ASMX/browser HTTP routes.
     app.MapEpicCompatibilityEndpoints();
     app.MapCernerCompatibilityEndpoints();
     app.MapUnityCompatibilityEndpoints();

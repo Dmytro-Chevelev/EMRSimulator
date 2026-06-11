@@ -4,13 +4,13 @@ namespace EmrSimulator.Infrastructure.Providers.Cerner;
 
 public sealed class VitalsLinkClinicalService
 {
-    public object BarcodeFormats() => new { formats = new[] { "MRN", "FIN" } };
+    public VitalsLinkBarcodeFormatsResponse BarcodeFormats() => new(["MRN", "FIN"]);
 
-    public object Personnel(string barcode) => new { barcode, personnelId = "PER-1001", displayName = "Synthetic Clinician" };
+    public VitalsLinkPersonnelResponse Personnel(string barcode) => new(barcode, "PER-1001", "Synthetic Clinician");
 
-    public object Locations() => new[] { new { locationId = "LOC-1001", name = "Synthetic Clinic" } };
+    public IReadOnlyList<VitalsLinkLocationResponse> Locations() => [new("LOC-1001", "Synthetic Clinic")];
 
-    public object Encounter(string? encounterId = null) => new { encounterId = encounterId ?? "ENC-1001", patientId = "CE-1001", status = "Active" };
+    public VitalsLinkEncounterResponse Encounter(string? encounterId = null) => new(encounterId ?? "ENC-1001", "CE-1001", "Active");
 
-    public object Patient(string? patientId = null) => CernerSampleBuilder.Patient(patientId ?? "CE-1001");
+    public CernerPatientResponse Patient(string? patientId = null) => CernerSampleBuilder.Patient(patientId ?? "CE-1001");
 }

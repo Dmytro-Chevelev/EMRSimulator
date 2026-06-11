@@ -1,3 +1,4 @@
+using EmrSimulator.Contracts.Cerner;
 using EmrSimulator.Infrastructure.Providers.Cerner;
 
 namespace EmrSimulator.Api.Routes;
@@ -35,7 +36,7 @@ public static class CernerEndpointMappings
         app.MapGet("/api/v1/cerner/hl7/submissions/{messageId}", (string messageId, CernerMidmarkService service) => Results.Ok(service.Hl7Submitted(messageId)));
         app.MapPost("/api/v1/ADTPatients/PatientSearchRequest", (CernerMidmarkService service) => Results.Ok(service.SearchPatients()));
         app.MapGet("/api/v1/ADTPatients/{patientId}", (string patientId, CernerMidmarkService service) => Results.Ok(service.Patient(patientId)));
-        app.MapPut("/api/v1/ADTPatients/UpdateLastAccessTime", () => Results.Ok(new { status = "Updated" }));
+        app.MapPut("/api/v1/ADTPatients/UpdateLastAccessTime", () => Results.Ok(new CernerLastAccessUpdateResponse("Updated")));
         app.MapGet("/api/v1/Physicians", (CernerMidmarkService service) => Results.Ok(service.Physicians()));
         app.MapPost("/api/v1/HL7Messages", (CernerMidmarkService service) => Results.Ok(service.Hl7Submitted()));
         app.MapPost("/api/v1/HL7Messages/pendingtest/{messageId}", (string messageId, CernerMidmarkService service) => Results.Ok(service.Hl7Submitted(messageId)));

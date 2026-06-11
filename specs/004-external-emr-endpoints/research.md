@@ -47,6 +47,36 @@
 - Session-only state: rejected because end-to-end connector workflows need saved report/message retrieval across calls.
 - External database dependency: rejected because the simulator must remain offline/local by default.
 
+## Decision: Use a stable repo-local SQLite database path by default
+
+**Rationale**: A relative SQLite path such as `Data Source=emrsimulator.db` can create different active databases depending on whether the API is launched from the repo root, API project folder, test host, or tooling working directory. The clarified requirement is to use a stable repo-local data folder such as `.data/emrsimulator.db` so local runs, restart persistence checks, and operator reset act on the same simulator database unless an operator explicitly overrides the connection string.
+
+**Alternatives considered**:
+
+- Current-process relative `emrsimulator.db`: rejected because it can make the active DB depend on launch directory and hide seeded/imported data.
+- API-project-local `App_Data`: rejected because it is less obvious from repo root workflows and can mix source project files with runtime state.
+- No default connection string: rejected because the simulator should run locally/offline with minimal setup.
+
+## Decision: Seed default synthetic patients non-destructively and reset to the baseline
+
+**Rationale**: Cerner Midmark ADT patient search must return real database state, not hard-coded stubs. Startup should guarantee 15 default synthetic patients without deleting later synthetic imports. `/api/v1/cerner/patients` returns all current synthetic database patients. Operator reset restores the deterministic 15-patient baseline and removes imported/generated synthetic patient records so connector tests start from a known state.
+
+**Alternatives considered**:
+
+- Exactly 15 total patients at all times: rejected because operator/import workflows need to add synthetic patients for testing.
+- Seed only when the database is empty: rejected because a partially missing default set would not self-heal.
+- Preserve imported patients on reset: rejected because reset must provide a deterministic baseline.
+
+## Decision: Use typed provider contract DTOs/records for provider-facing payloads
+
+**Rationale**: Provider compatibility depends on documented contract shapes. Returning anonymous or generic `object` payloads makes drift hard to detect and weakens tests. Shared typed provider request/response DTOs or records in `EmrSimulator.Contracts` make route behavior explicit, testable, and aligned with the source inventories.
+
+**Alternatives considered**:
+
+- Allow anonymous provider stubs: rejected because they are not durable contracts and can hide accidental shape changes.
+- Type only admin-visible payloads: rejected because connector-facing payloads carry the primary compatibility risk.
+- Generate all DTOs at runtime from markdown: rejected because runtime markdown parsing is brittle and less reviewable than explicit contract records.
+
 ## Decision: Enforce synthetic authentication for protected flows
 
 **Rationale**: Epic OAuth/FHIR, Unity token flows, VitalsLink authentication, and protected report/device/framework operations need realistic negative and positive authorization behavior. Synthetic credentials and tokens keep test behavior meaningful without storing real secrets.

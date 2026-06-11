@@ -5,11 +5,11 @@ namespace EmrSimulator.Infrastructure.Providers.Cerner;
 
 public sealed class VitalsLinkAuthService : ICernerSimulatorService
 {
-    public object Auth() => CernerSampleBuilder.Auth();
+    public CernerAuthResponse Auth() => CernerSampleBuilder.Auth();
 
-    public object Patient(string? patientId = null) => CernerSampleBuilder.Patient(patientId ?? "CE-1001");
+    public CernerPatientResponse Patient(string? patientId = null) => CernerSampleBuilder.Patient(patientId ?? "CE-1001");
 
-    public object Device(string status) => CernerSampleBuilder.Device(status);
+    public CernerDeviceResponse Device(string status) => CernerSampleBuilder.Device(status);
 
     public string Acknowledge(string message)
         => $"MSH|^~\\&|SIM|MIDMARK|CONNECTOR|LOCAL|{DateTime.UtcNow:yyyyMMddHHmmss}||ACK|ACK-1|P|2.5\rMSA|AA|{ExtractControlId(message)}";

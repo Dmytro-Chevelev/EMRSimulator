@@ -1,6 +1,8 @@
+using EmrSimulator.Contracts.Epic;
+
 namespace EmrSimulator.Infrastructure.Providers.Epic;
 
 public sealed class EpicVerificationRecorder
 {
-    public object Record(string route) => new { provider = "Epic", route, verified = true };
+    public EpicVerificationRecordResponse Record(string route) => new("Epic", route, true);
 }

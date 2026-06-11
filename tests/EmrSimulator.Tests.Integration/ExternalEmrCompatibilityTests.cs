@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using EmrSimulator.Contracts;
 using EmrSimulator.Contracts.Epic;
 
@@ -44,6 +45,21 @@ public sealed class ExternalEmrCompatibilityTests(SimulatorWebApplicationFactory
         Assert.NotNull(launch);
         Assert.Equal("test-launch", launch!.LaunchToken);
         Assert.Equal(HttpStatusCode.OK, patient.StatusCode);
+    }
+
+    [Fact]
+    public async Task Cerner_patient_list_returns_seeded_database_patients()
+    {
+        var client = factory.CreateClient();
+
+        var response = await client.GetAsync("/api/v1/cerner/patients");
+        var json = await response.Content.ReadAsStringAsync();
+        using var document = JsonDocument.Parse(json);
+
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(15, document.RootElement.GetArrayLength());
+        Assert.Contains("ADT-1001", json, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("MRN-1015", json, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

@@ -16,6 +16,7 @@ public sealed class EfSyntheticStateRepository(EmrSimulatorDbContext dbContext) 
         dbContext.Hl7MessageStates.RemoveRange(dbContext.Hl7MessageStates);
         dbContext.VerificationEvidence.RemoveRange(dbContext.VerificationEvidence);
         dbContext.RequestLogs.RemoveRange(dbContext.RequestLogs);
+        dbContext.Patients.RemoveRange(dbContext.Patients);
 
         var profiles = dbContext.EmrProfiles.ToList();
         foreach (var profile in profiles)
@@ -25,6 +26,8 @@ public sealed class EfSyntheticStateRepository(EmrSimulatorDbContext dbContext) 
         }
 
         dbContext.SaveChanges();
+        SyntheticPatientSeeder.EnsureSeeded(dbContext);
+
         return profiles.Count == 0 ? 1 : profiles.Max(profile => profile.ResetGeneration);
     }
 }

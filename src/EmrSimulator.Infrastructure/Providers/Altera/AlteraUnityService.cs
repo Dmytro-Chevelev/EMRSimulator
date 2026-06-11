@@ -4,7 +4,7 @@ namespace EmrSimulator.Infrastructure.Providers.Altera;
 
 public sealed class AlteraUnityService
 {
-    public object Token() => UnitySampleBuilder.Token();
+    public UnityTokenResponse Token() => UnitySampleBuilder.Token();
 
-    public object Magic(string action) => UnitySampleBuilder.Operation(action);
+    public UnityOperationResponse Magic(string action) => UnitySampleBuilder.Operation(action);
 }

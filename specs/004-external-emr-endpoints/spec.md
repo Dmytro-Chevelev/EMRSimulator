@@ -13,6 +13,11 @@
 - Q: How long should synthetic simulator state be retained? -> A: Persist synthetic state until operator reset
 - Q: How should protected simulator flows handle authentication? -> A: Enforce provider-compatible synthetic credentials, tokens, and auth headers for protected flows
 - Q: Which contract validation tolerance should the simulator apply? -> A: Accept documented contract shapes plus known serializer variants such as Pascal/camel case and string/numeric enums
+- Q: How should Cerner Midmark ADT patient search source patient data? -> A: Seed 15 default synthetic patients in the database and return all from `/api/v1/cerner/patients`
+- Q: How should provider-facing request and response payloads be represented in implementation contracts? -> A: Require typed provider contract DTOs/records for all provider-facing request and response payloads
+- Q: How should default patient seeding interact with later synthetic patient imports? -> A: Seed 15 default patients non-destructively and return all current database patients, including later synthetic imports
+- Q: How should simulator reset affect synthetic patient data? -> A: Reset restores the 15 default seeded patients and removes imported/generated synthetic patients
+- Q: Where should the default local SQLite database be stored? -> A: Store SQLite in a stable repo-local data folder such as `.data/emrsimulator.db`
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -44,7 +49,8 @@ As an EMR integration engineer, I want Cerner CareAware/VitalsLink, HL7, and Mid
 
 1. **Given** a configured Cerner simulator profile, **When** the connector calls authentication, barcode format, personnel barcode, location, encounter, patient, device registration, heartbeat, vitals posting, and device removal operations, **Then** the simulator returns the documented contract shapes and consistent synthetic identifiers across the workflow.
 2. **Given** a configured HL7 scenario, **When** the connector sends or receives supported ADT and ORU-style messages through the native TCP/MLLP simulator boundary, **Then** the simulator acknowledges valid messages, preserves the patient/report relationship, and records message details for review.
-3. **Given** a Midmark-facing Cerner service client, **When** it searches ADT patients, retrieves an ADT patient, updates last access, lists physicians, or submits HL7 messages, **Then** the simulator responds according to the documented service contracts.
+3. **Given** a Midmark-facing Cerner service client and the default synthetic database seed, **When** it searches ADT patients through `/api/v1/cerner/patients`, **Then** the simulator returns all current synthetic patient records from the database, including the 15 default seeded patients and any later synthetic imports, according to the documented service contract.
+4. **Given** a Midmark-facing Cerner service client, **When** it retrieves an ADT patient, updates last access, lists physicians, or submits HL7 messages, **Then** the simulator responds according to the documented service contracts.
 
 ---
 
@@ -91,6 +97,7 @@ As a simulator operator, I want to configure provider scenarios and inspect endp
 - Connector requests a configured data-source simulation where the selected source profile has no matching patient, provider, document, report, or clinical summary data.
 - Multiple connector sessions call the same provider profile concurrently and must not corrupt another session's patient, report, token, device, or message state.
 - Operator resets persisted simulator state while connector sessions are inactive, after which prior generated reports, device registrations, messages, request logs, and verification evidence are no longer returned.
+- Operator resets persisted simulator state after importing or generating additional synthetic patients, after which the patient database is restored to the 15 default seeded synthetic patients.
 
 ## Requirements *(mandatory)*
 
@@ -106,16 +113,16 @@ As a simulator operator, I want to configure provider scenarios and inspect endp
 - **FR-008**: System MUST support the documented Altera browser/client workflow routes for launcher, test, review, compare, and calibration scenarios with deterministic synthetic URLs or outcomes.
 - **FR-009**: System MUST support Cerner CareAware/VitalsLink workflows for authentication, barcode formats, personnel barcode resolution, location hierarchy, encounter search, encounter retrieval, patient retrieval, device registration, device heartbeat, discrete vitals posting, and device removal.
 - **FR-010**: System MUST support Cerner HL7 workflows for inbound ADT-style patient messages, outbound ORU/result messages, acknowledgement behavior, and failure handling for invalid messages.
-- **FR-011**: System MUST support Cerner Midmark-facing service workflows for ADT patient search, ADT patient retrieval, patient last-access update, physician list retrieval, HL7 message submission, and pending-test HL7 message submission.
-- **FR-012**: System MUST validate incoming requests against the documented contract families and return contract-valid success or failure responses for token, patient, provider, observation, diagnostic report, binary/PDF, report, device, Unity XML, Unity JSON, ASMX/framework, VitalsLink, ADT patient, physician, vitals, and HL7 message shapes.
+- **FR-011**: System MUST support Cerner Midmark-facing service workflows for ADT patient search, ADT patient retrieval, patient last-access update, physician list retrieval, HL7 message submission, and pending-test HL7 message submission. The `/api/v1/cerner/patients` ADT patient search MUST return all current synthetic patient records in the database, including the 15 default seeded patients and any later synthetic imports.
+- **FR-012**: System MUST validate incoming requests against the documented contract families and return contract-valid success or failure responses for token, patient, provider, observation, diagnostic report, binary/PDF, report, device, Unity XML, Unity JSON, ASMX/framework, VitalsLink, ADT patient, physician, vitals, and HL7 message shapes. Provider-facing request and response payloads MUST be represented by typed provider contract DTOs or records rather than generic `object` or anonymous payload shapes.
 - **FR-013**: System MUST preserve synthetic scenario consistency across a connector session so patients, encounters, providers, reports, devices, tokens, documents, vitals, and HL7 identifiers remain coherent across related endpoint calls.
 - **FR-014**: System MUST allow operators to select deterministic success and failure scenarios for each provider profile, including at minimum success, authorization failure, not found, malformed request, unsupported operation, unavailable provider, and partial binary/file transfer outcomes.
 - **FR-015**: System MUST record every simulator interaction with timestamp, provider profile, endpoint or operation, request identifiers, response outcome, correlation/session identifier when available, and enough request/response metadata to troubleshoot without storing real patient data.
 - **FR-016**: System MUST expose endpoint coverage and verification evidence so operators can see which documented endpoints are implemented, tested, passing, failing, or not yet exercised.
-- **FR-017**: System MUST use only synthetic patient, provider, encounter, report, device, document, vitals, calibration, settings, and message data in default scenarios.
+- **FR-017**: System MUST use only synthetic patient, provider, encounter, report, device, document, vitals, calibration, settings, and message data in default scenarios, including exactly 15 default synthetic patient records in the non-destructive database seed.
 - **FR-018**: System MUST document how connector teams configure each provider family to target the simulator and which source-document endpoints are covered by the implementation.
 - **FR-019**: System MUST expose native protocol-compatible simulator boundaries for the documented connector surfaces, including REST/FHIR HTTP calls, SOAP/XML-compatible WCF or ASMX-style operations, and HL7 TCP/MLLP message exchange.
-- **FR-020**: System MUST persist synthetic simulator state, including generated identifiers, saved reports, device registrations, documents, settings, messages, request logs, and verification evidence, until an operator explicitly resets that state.
+- **FR-020**: System MUST persist synthetic simulator state, including generated identifiers, imported/generated synthetic patients, saved reports, device registrations, documents, settings, messages, request logs, and verification evidence, until an operator explicitly resets that state. Reset MUST restore the 15 default seeded synthetic patients and remove imported or generated synthetic patient records. The default local SQLite database MUST use a stable repo-local data folder such as `.data/emrsimulator.db` so API launch working directory does not change the active simulator database.
 - **FR-021**: System MUST enforce provider-compatible synthetic credentials, tokens, and authentication headers for protected simulator flows, including Epic OAuth/FHIR, Unity security-token flows, VitalsLink authentication, protected framework calls, and any documented protected report, device, or message workflow.
 - **FR-022**: System MUST accept the documented contract shapes plus known connector serializer variants, including PascalCase and camelCase property names and string or numeric enum representations, while rejecting requests that omit required identifiers or contain invalid required structures.
 
@@ -139,7 +146,7 @@ As a simulator operator, I want to configure provider scenarios and inspect endp
 - **SC-005**: Operators can identify implemented, passing, failing, and untested endpoint coverage for all provider families within 2 minutes of opening the verification evidence.
 - **SC-006**: Default simulator scenarios contain zero real patient records, real provider records, real report payloads, or real credentials.
 - **SC-007**: Connector setup documentation enables a new engineer to configure at least one provider profile and perform a successful smoke workflow in under 30 minutes.
-- **SC-008**: 100% of generated synthetic reports, device registrations, documents, messages, request logs, and verification evidence created during a verification run remain available after simulator restart until an operator reset is performed.
+- **SC-008**: 100% of imported/generated synthetic patients, generated synthetic reports, device registrations, documents, messages, request logs, and verification evidence created during a verification run remain available after simulator restart until an operator reset is performed.
 - **SC-009**: 100% of protected-flow verification cases accept configured synthetic credentials and reject missing, invalid, expired, retired, or real credentials with documented failure outcomes.
 - **SC-010**: 100% of contract-validation verification cases accept documented shapes and known serializer variants while rejecting requests with missing required identifiers or invalid required structures.
 
@@ -154,3 +161,4 @@ As a simulator operator, I want to configure provider scenarios and inspect endp
 - Contract compatibility includes known connector serializer differences from the source documents, including property-name casing and enum representation differences.
 - Default scenarios prioritize deterministic connector testing over exhaustive clinical realism.
 - Administrative management and verification views may reuse existing simulator concepts for providers, scenarios, request logs, and smoke evidence.
+- Local development uses a stable repo-local SQLite database path such as `.data/emrsimulator.db`; operators may override the connection string explicitly when needed.

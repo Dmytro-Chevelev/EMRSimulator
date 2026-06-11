@@ -18,6 +18,16 @@ No product repositories were found under `C:\Users\DChevelevAD\Documents\Codex\2
 
 For this inventory, "endpoint" includes EMR-originated launch/callback URLs, outbound provider REST/FHIR URLs, WCF/SOAP provider operations, HL7 TCP endpoints, and provider database endpoints. Midmark-internal APIs that support an EMR connector are listed in separate "Midmark-facing/internal" sections so they are not confused with provider endpoints.
 
+## Simulator implementation status
+
+Updated: 2026-06-11
+
+- The EMR simulator implements native-compatible route families for Epic SMART/FHIR/report/device flows, Cerner VitalsLink REST and Midmark-facing ADT/physician/HL7 service routes, Unity SOAP endpoints, Altera framework ASMX-style calls, and Altera browser workflow routes.
+- Admin/control APIs remain under `/api/v1` for provider/scenario selection, patient import, request logs, endpoint coverage, verification evidence, and simulator reset.
+- Cerner `GET /api/v1/cerner/patients` is database-backed and returns all current synthetic patients, including the 15 default seeded patients and later synthetic imports until reset.
+- The default local SQLite database resolves to the repo-local `.data/emrsimulator.db` path unless the operator explicitly overrides the connection string.
+- Simulator reset clears generated state, request logs, verification evidence, and imported/generated patients, then restores the 15 default synthetic patients.
+
 ## EPIC
 
 ### External Epic launch and OAuth/FHIR endpoints
@@ -173,6 +183,8 @@ Source: `Midmark.Connectors.Cerner\src\MidmarkIQiM\VitalsLinkAPILib\ClientHelper
 | --- | --- | --- | --- | --- |
 | POST | `/api/v1/ADTPatients/PatientSearchRequest` | Midmark client to Midmark Cerner web service | Search ADT patients. The route token is declared as `{PatientSearchRequest}` and the client calls `PatientSearchRequest`. | `Midmark.Connectors.Cerner\src\IQiMWebService\IQiMWebService\Controllers\ADTPatientsController.cs`; `Midmark.Connectors.Cerner\src\IQiMWebService\IQiMWebAPILib` |
 | GET | `/api/v1/ADTPatients/{id}` | Midmark client to Midmark Cerner web service | Retrieve ADT patient by ID. | Same as above |
+| GET | `/api/v1/cerner/patients` | Midmark client to simulator Cerner service | Return all current synthetic database patients, including the 15 default seeded records and later synthetic imports. | Simulator compatibility extension |
+| GET | `/api/v1/cerner/patients/{id}` | Midmark client to simulator Cerner service | Return a typed synthetic Cerner patient by database ID, external patient ID, or MRN. | Simulator compatibility extension |
 | PUT | `/api/v1/ADTPatients/UpdateLastAccessTime` | Midmark client to Midmark Cerner web service | Update patient access timestamp. | Same as above |
 | GET | `/api/v1/Physicians?activeOnly={activeOnly}` | Midmark client to Midmark Cerner web service | Retrieve physician list. | `Midmark.Connectors.Cerner\src\IQiMWebService\IQiMWebService\Controllers\PhysiciansController.cs` |
 | POST | `/api/v1/HL7Messages` | Midmark client to Midmark Cerner web service | Submit HL7 message for outbound processing. | `Midmark.Connectors.Cerner\src\IQiMWebService\IQiMWebService\Controllers\HL7MessagesController.cs` |

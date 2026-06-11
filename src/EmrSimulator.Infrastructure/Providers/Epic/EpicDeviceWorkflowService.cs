@@ -4,9 +4,9 @@ namespace EmrSimulator.Infrastructure.Providers.Epic;
 
 public sealed class EpicDeviceWorkflowService
 {
-    public object Start() => EpicSampleBuilder.Device("Started");
+    public EpicDeviceWorkflowResponse Start() => EpicSampleBuilder.Device("Started");
 
-    public object Abort() => EpicSampleBuilder.Device("Aborted");
+    public EpicDeviceWorkflowResponse Abort() => EpicSampleBuilder.Device("Aborted");
 
-    public object RegisterLauncher() => new { launcherId = "synthetic-launcher", status = "Registered" };
+    public EpicLauncherRegistrationResponse RegisterLauncher() => new("synthetic-launcher", "Registered");
 }

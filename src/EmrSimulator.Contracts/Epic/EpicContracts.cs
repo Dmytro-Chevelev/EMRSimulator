@@ -4,9 +4,27 @@ public sealed record EpicTokenResponse(string AccessToken, string TokenType, int
 
 public sealed record EpicLaunchResponse(string SessionId, string LaunchToken, string Issuer, string Status);
 
+public sealed record EpicCloseResponse(string Status);
+
+public sealed record EpicFhirCapabilityRestResponse(string Mode);
+
+public sealed record EpicFhirCapabilityResponse(string ResourceType, string Status, IReadOnlyList<EpicFhirCapabilityRestResponse> Rest);
+
+public sealed record EpicFhirResourceResponse(string ResourceType, string Id, string Patient, string Status);
+
 public sealed record EpicReportResponse(string ReportId, string PatientId, string ReportType, string Status, string PdfBase64);
 
+public sealed record EpicReportDataFileResponse(string FileId, string Status);
+
+public sealed record EpicReportComparisonResponse(string ComparisonId, string Status);
+
 public sealed record EpicDeviceWorkflowResponse(string DeviceId, string WorkflowId, string Status);
+
+public sealed record EpicAuthenticationResponse(string Status, string Scheme);
+
+public sealed record EpicLauncherRegistrationResponse(string LauncherId, string Status);
+
+public sealed record EpicVerificationRecordResponse(string Provider, string Route, bool Verified);
 
 public static class EpicSampleBuilder
 {

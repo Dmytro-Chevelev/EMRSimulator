@@ -25,9 +25,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddEmrSimulatorInfrastructure(
         this IServiceCollection services,
-        string? connectionString = null)
+        string? connectionString = null,
+        string? contentRootPath = null)
     {
-        var cs = connectionString ?? "Data Source=emrsimulator.db";
+        var cs = SqliteConnectionStringResolver.Resolve(connectionString, contentRootPath ?? Directory.GetCurrentDirectory());
         services.AddDbContext<EmrSimulatorDbContext>(options =>
             options.UseSqlite(cs));
 
