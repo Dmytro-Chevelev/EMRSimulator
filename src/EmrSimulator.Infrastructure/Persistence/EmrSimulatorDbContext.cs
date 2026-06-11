@@ -15,6 +15,14 @@ public sealed class EmrSimulatorDbContext : DbContext
     public DbSet<Result> Results => Set<Result>();
     public DbSet<MockResponse> MockResponses => Set<MockResponse>();
     public DbSet<RequestLog> RequestLogs => Set<RequestLog>();
+    public DbSet<EndpointContract> EndpointContracts => Set<EndpointContract>();
+    public DbSet<SyntheticCredentialSet> SyntheticCredentialSets => Set<SyntheticCredentialSet>();
+    public DbSet<SyntheticPatientGraph> SyntheticPatientGraphs => Set<SyntheticPatientGraph>();
+    public DbSet<SyntheticReportState> SyntheticReportStates => Set<SyntheticReportState>();
+    public DbSet<DeviceRegistrationState> DeviceRegistrationStates => Set<DeviceRegistrationState>();
+    public DbSet<DocumentState> DocumentStates => Set<DocumentState>();
+    public DbSet<Hl7MessageState> Hl7MessageStates => Set<Hl7MessageState>();
+    public DbSet<VerificationEvidence> VerificationEvidence => Set<VerificationEvidence>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

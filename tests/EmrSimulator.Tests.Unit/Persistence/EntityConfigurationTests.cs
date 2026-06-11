@@ -67,4 +67,30 @@ public sealed class EntityConfigurationTests
         Assert.NotNull(scenarioFkProperty);
         Assert.True(scenarioFkProperty!.IsNullable);
     }
+
+    [Fact]
+    public void External_emr_entities_are_mapped_with_catalog_key_index()
+    {
+        using var connection = new SqliteConnection("DataSource=:memory:");
+        connection.Open();
+
+        var options = new DbContextOptionsBuilder<EmrSimulatorDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using var db = new EmrSimulatorDbContext(options);
+        db.Database.EnsureCreated();
+
+        var endpointEntity = db.Model.FindEntityType(typeof(EndpointContract));
+        var keyIndex = endpointEntity?.GetIndexes().SingleOrDefault(index =>
+            index.Properties.Count == 1 && index.Properties[0].Name == nameof(EndpointContract.ContractKey));
+
+        Assert.NotNull(endpointEntity);
+        Assert.NotNull(keyIndex);
+        Assert.True(keyIndex!.IsUnique);
+        Assert.NotNull(db.Model.FindEntityType(typeof(SyntheticCredentialSet)));
+        Assert.NotNull(db.Model.FindEntityType(typeof(SyntheticReportState)));
+        Assert.NotNull(db.Model.FindEntityType(typeof(Hl7MessageState)));
+        Assert.NotNull(db.Model.FindEntityType(typeof(VerificationEvidence)));
+    }
 }

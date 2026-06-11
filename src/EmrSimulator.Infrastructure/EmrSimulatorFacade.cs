@@ -2,6 +2,7 @@ using EmrSimulator.Application;
 using EmrSimulator.Application.Repositories;
 using EmrSimulator.Contracts;
 using EmrSimulator.Domain;
+using EmrSimulator.Infrastructure.Persistence;
 
 namespace EmrSimulator.Infrastructure;
 
@@ -10,7 +11,11 @@ public sealed class EmrSimulatorFacade(
     IPatientRepository? patientRepository = null,
     IAppointmentRepository? appointmentRepository = null,
     IOrderRepository? orderRepository = null,
-    IResultRepository? resultRepository = null) : IEmrSimulatorFacade
+    IResultRepository? resultRepository = null,
+    IEndpointCatalogService? endpointCatalogService = null,
+    IVerificationEvidenceService? verificationEvidenceService = null,
+    ISyntheticScenarioStateService? scenarioStateService = null,
+    EmrSimulatorDbContext? dbContext = null) : IEmrSimulatorFacade
 {
     public IReadOnlyList<ProviderSelectionDto> GetProviders()
         => store.Profiles.Select(profile => new ProviderSelectionDto(profile.Name, profile.Enabled ? "Available" : "Disabled")).ToList();
@@ -176,7 +181,25 @@ public sealed class EmrSimulatorFacade(
     }
 
     public IReadOnlyList<RequestLogDto> GetRequestLogs()
-        => store.Logs.Select(log => new RequestLogDto(log.Id, log.Provider, log.Route, log.Method, log.RequestHeadersJson, log.RequestBody, log.ResponseBody, log.ResponseCode, log.DurationMs, log.ScenarioId, log.CreatedAtUtc)).ToList();
+        => (dbContext is null ? store.Logs : dbContext.RequestLogs.OrderByDescending(log => log.CreatedAtUtc))
+            .Select(log => new RequestLogDto(log.Id, log.Provider, log.Route, log.Method, log.RequestHeadersJson, log.RequestBody, log.ResponseBody, log.ResponseCode, log.DurationMs, log.ScenarioId, log.CreatedAtUtc))
+            .ToList();
+
+    public IReadOnlyList<EndpointContractDto> GetEndpointContracts()
+        => endpointCatalogService?.GetEndpointContracts() ?? [];
+
+    public IReadOnlyList<VerificationEvidenceDto> GetVerificationEvidence(Guid? endpointContractId = null)
+        => verificationEvidenceService?.GetEvidence(endpointContractId) ?? [];
+
+    public SimulatorResetResult ResetSyntheticState()
+    {
+        if (scenarioStateService is null)
+        {
+            return new SimulatorResetResult(0, "Synthetic state reset is not configured for the in-memory simulator store.");
+        }
+
+        return scenarioStateService.Reset();
+    }
 
     private static PatientDto ToDto(Patient patient)
         => new(patient.Id, patient.ExternalPatientId, patient.Mrn, patient.FirstName, patient.LastName, patient.DateOfBirth, patient.Gender, patient.Phone, patient.Email);

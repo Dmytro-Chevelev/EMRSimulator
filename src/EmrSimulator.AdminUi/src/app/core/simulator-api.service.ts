@@ -3,13 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import {
   Appointment,
+  EndpointContract,
   ImportReport,
   Order,
   Patient,
   ProviderSelection,
   RequestLog,
   Result,
-  Scenario
+  Scenario,
+  SimulatorResetResult,
+  VerificationEvidence
 } from './models';
 
 @Injectable({ providedIn: 'root' })
@@ -73,5 +76,17 @@ export class SimulatorApiService {
 
   async getRequestLogs(): Promise<RequestLog[]> {
     return firstValueFrom(this.http.get<RequestLog[]>(`${this.baseUrl}/request-logs`));
+  }
+
+  async getEndpointContracts(): Promise<EndpointContract[]> {
+    return firstValueFrom(this.http.get<EndpointContract[]>(`${this.baseUrl}/endpoint-contracts`));
+  }
+
+  async getVerificationEvidence(endpointContractId: string): Promise<VerificationEvidence[]> {
+    return firstValueFrom(this.http.get<VerificationEvidence[]>(`${this.baseUrl}/endpoint-contracts/${endpointContractId}/verification`));
+  }
+
+  async resetSimulator(): Promise<SimulatorResetResult> {
+    return firstValueFrom(this.http.post<SimulatorResetResult>(`${this.baseUrl}/simulator/reset`, {}));
   }
 }

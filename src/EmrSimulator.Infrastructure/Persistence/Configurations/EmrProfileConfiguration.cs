@@ -27,6 +27,15 @@ public sealed class EmrProfileConfiguration : IEntityTypeConfiguration<EmrProfil
         builder.Property(e => e.BaseUrl)
             .HasMaxLength(500);
 
+        builder.Property(e => e.NativeBaseUrl)
+            .HasMaxLength(500);
+
+        builder.Property(e => e.Hl7Host)
+            .HasMaxLength(200);
+
+        builder.Property(e => e.ResetGeneration)
+            .HasDefaultValue(0);
+
         builder.Property(e => e.Enabled)
             .HasDefaultValue(true);
 

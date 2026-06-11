@@ -15,12 +15,12 @@
 
 **Purpose**: Prepare project configuration, seed files, and baseline references for native endpoint compatibility work.
 
-- [ ] T001 Add external EMR feature marker and source-doc references in `specs/004-external-emr-endpoints/verification/coverage-source-map.md`
-- [ ] T002 [P] Add native protocol configuration defaults for HTTP/SOAP/HL7 listeners in `src/EmrSimulator.Api/appsettings.Development.json`
-- [ ] T003 [P] Add endpoint-catalog seed JSON skeleton in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
-- [ ] T004 [P] Add synthetic credential seed JSON skeleton in `src/EmrSimulator.Infrastructure/SeedData/synthetic-provider-credentials.json`
-- [ ] T005 [P] Add feature verification checklist scaffold in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
-- [ ] T006 [P] Add external EMR smoke sample placeholders in `specs/004-external-emr-endpoints/verification/protocol-smoke-samples.md`
+- [X] T001 Add external EMR feature marker and source-doc references in `specs/004-external-emr-endpoints/verification/coverage-source-map.md`
+- [X] T002 [P] Add native protocol configuration defaults for HTTP/SOAP/HL7 listeners in `src/EmrSimulator.Api/appsettings.Development.json`
+- [X] T003 [P] Add endpoint-catalog seed JSON skeleton in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
+- [X] T004 [P] Add synthetic credential seed JSON skeleton in `src/EmrSimulator.Infrastructure/SeedData/synthetic-provider-credentials.json`
+- [X] T005 [P] Add feature verification checklist scaffold in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
+- [X] T006 [P] Add external EMR smoke sample placeholders in `specs/004-external-emr-endpoints/verification/protocol-smoke-samples.md`
 
 ---
 
@@ -30,33 +30,33 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T007 Create endpoint contract domain enums and entities in `src/EmrSimulator.Domain/EndpointContracts.cs`
-- [ ] T008 [P] Extend existing `EmrProfile` with provider-profile settings and create synthetic credential domain entities in `src/EmrSimulator.Domain/ProviderProfiles.cs`
-- [ ] T009 [P] Create synthetic patient/report/device/document state entities in `src/EmrSimulator.Domain/SyntheticWorkflowState.cs`
-- [ ] T010 [P] Create HL7 message and verification evidence entities in `src/EmrSimulator.Domain/VerificationState.cs`
-- [ ] T011 Add endpoint contract and provider profile DTOs backed by existing `EmrProfile` identity in `src/EmrSimulator.Contracts/EndpointContractDtos.cs`
-- [ ] T012 [P] Add synthetic auth, reset, request log, and verification DTOs in `src/EmrSimulator.Contracts/SimulatorOperationDtos.cs`
-- [ ] T013 Add protocol-neutral Application interfaces for catalog, dispatch, validation, auth, state, reset, logging, and evidence in `src/EmrSimulator.Application/ExternalEmrContracts.cs`
-- [ ] T014 [P] Add repository interfaces for endpoint contracts and verification evidence in `src/EmrSimulator.Application/Repositories/IEndpointContractRepository.cs`
-- [ ] T015 [P] Add repository interfaces for synthetic workflow state in `src/EmrSimulator.Application/Repositories/ISyntheticStateRepository.cs`
-- [ ] T016 Add EF Core DbSets for endpoint contracts, credentials, workflow state, and evidence, and wire provider-profile relationships to existing `EmrProfiles` in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
-- [ ] T017 [P] Add Fluent API mappings for endpoint contracts in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EndpointContractConfiguration.cs`
-- [ ] T018 [P] Add Fluent API mappings for `EmrProfile` provider-profile settings and credentials in `src/EmrSimulator.Infrastructure/Persistence/Configurations/ProviderProfileConfiguration.cs`
-- [ ] T019 [P] Add Fluent API mappings for synthetic workflow state in `src/EmrSimulator.Infrastructure/Persistence/Configurations/SyntheticWorkflowStateConfiguration.cs`
-- [ ] T020 [P] Add Fluent API mappings for HL7 messages and verification evidence in `src/EmrSimulator.Infrastructure/Persistence/Configurations/VerificationStateConfiguration.cs`
-- [ ] T021 Implement endpoint catalog repository and seed loader in `src/EmrSimulator.Infrastructure/Persistence/EfEndpointContractRepository.cs`
-- [ ] T022 [P] Implement synthetic workflow state repository in `src/EmrSimulator.Infrastructure/Persistence/EfSyntheticStateRepository.cs`
-- [ ] T023 [P] Implement verification evidence repository in `src/EmrSimulator.Infrastructure/Persistence/EfVerificationEvidenceRepository.cs`
-- [ ] T024 Implement tolerant contract validation service in `src/EmrSimulator.Infrastructure/Validation/ContractValidationService.cs`
-- [ ] T025 [P] Implement synthetic authentication service in `src/EmrSimulator.Infrastructure/Auth/SyntheticAuthenticationService.cs`
-- [ ] T026 [P] Implement request logging service with endpoint contract metadata in `src/EmrSimulator.Infrastructure/Logging/ExternalEmrRequestLogger.cs`
-- [ ] T027 Implement deterministic scenario state service and operator reset service in `src/EmrSimulator.Infrastructure/Scenarios/SyntheticScenarioStateService.cs`
-- [ ] T028 Register foundational services and hosted protocol options in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs`
-- [ ] T029 Add `/api/v1` admin/control endpoints for catalog, verification evidence, and reset in `src/EmrSimulator.Api/Program.cs`
-- [ ] T030 [P] Add endpoint catalog schema tests in `tests/EmrSimulator.Tests.Unit/Persistence/EndpointContractConfigurationTests.cs`
-- [ ] T031 [P] Add tolerant contract validation tests in `tests/EmrSimulator.Tests.Unit/ContractValidationTests.cs`
-- [ ] T032 [P] Add synthetic authentication tests in `tests/EmrSimulator.Tests.Unit/SyntheticAuthenticationTests.cs`
-- [ ] T033 Add persistence and reset integration tests in `tests/EmrSimulator.Tests.Integration/SyntheticStatePersistenceTests.cs`
+- [X] T007 Create endpoint contract domain enums and entities in `src/EmrSimulator.Domain/EndpointContracts.cs`
+- [X] T008 [P] Extend existing `EmrProfile` with provider-profile settings and create synthetic credential domain entities in `src/EmrSimulator.Domain/ProviderProfiles.cs`
+- [X] T009 [P] Create synthetic patient/report/device/document state entities in `src/EmrSimulator.Domain/SyntheticWorkflowState.cs`
+- [X] T010 [P] Create HL7 message and verification evidence entities in `src/EmrSimulator.Domain/VerificationState.cs`
+- [X] T011 Add endpoint contract and provider profile DTOs backed by existing `EmrProfile` identity in `src/EmrSimulator.Contracts/EndpointContractDtos.cs`
+- [X] T012 [P] Add synthetic auth, reset, request log, and verification DTOs in `src/EmrSimulator.Contracts/SimulatorOperationDtos.cs`
+- [X] T013 Add protocol-neutral Application interfaces for catalog, dispatch, validation, auth, state, reset, logging, and evidence in `src/EmrSimulator.Application/ExternalEmrContracts.cs`
+- [X] T014 [P] Add repository interfaces for endpoint contracts and verification evidence in `src/EmrSimulator.Application/Repositories/IEndpointContractRepository.cs`
+- [X] T015 [P] Add repository interfaces for synthetic workflow state in `src/EmrSimulator.Application/Repositories/ISyntheticStateRepository.cs`
+- [X] T016 Add EF Core DbSets for endpoint contracts, credentials, workflow state, and evidence, and wire provider-profile relationships to existing `EmrProfiles` in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
+- [X] T017 [P] Add Fluent API mappings for endpoint contracts in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EndpointContractConfiguration.cs`
+- [X] T018 [P] Add Fluent API mappings for `EmrProfile` provider-profile settings and credentials in `src/EmrSimulator.Infrastructure/Persistence/Configurations/ProviderProfileConfiguration.cs`
+- [X] T019 [P] Add Fluent API mappings for synthetic workflow state in `src/EmrSimulator.Infrastructure/Persistence/Configurations/SyntheticWorkflowStateConfiguration.cs`
+- [X] T020 [P] Add Fluent API mappings for HL7 messages and verification evidence in `src/EmrSimulator.Infrastructure/Persistence/Configurations/VerificationStateConfiguration.cs`
+- [X] T021 Implement endpoint catalog repository and seed loader in `src/EmrSimulator.Infrastructure/Persistence/EfEndpointContractRepository.cs`
+- [X] T022 [P] Implement synthetic workflow state repository in `src/EmrSimulator.Infrastructure/Persistence/EfSyntheticStateRepository.cs`
+- [X] T023 [P] Implement verification evidence repository in `src/EmrSimulator.Infrastructure/Persistence/EfVerificationEvidenceRepository.cs`
+- [X] T024 Implement tolerant contract validation service in `src/EmrSimulator.Infrastructure/Validation/ContractValidationService.cs`
+- [X] T025 [P] Implement synthetic authentication service in `src/EmrSimulator.Infrastructure/Auth/SyntheticAuthenticationService.cs`
+- [X] T026 [P] Implement request logging service with endpoint contract metadata in `src/EmrSimulator.Infrastructure/Logging/ExternalEmrRequestLogger.cs`
+- [X] T027 Implement deterministic scenario state service and operator reset service in `src/EmrSimulator.Infrastructure/Scenarios/SyntheticScenarioStateService.cs`
+- [X] T028 Register foundational services and hosted protocol options in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs`
+- [X] T029 Add `/api/v1` admin/control endpoints for catalog, verification evidence, and reset in `src/EmrSimulator.Api/Program.cs`
+- [X] T030 [P] Add endpoint catalog schema tests in `tests/EmrSimulator.Tests.Unit/Persistence/EndpointContractConfigurationTests.cs`
+- [X] T031 [P] Add tolerant contract validation tests in `tests/EmrSimulator.Tests.Unit/ContractValidationTests.cs`
+- [X] T032 [P] Add synthetic authentication tests in `tests/EmrSimulator.Tests.Unit/SyntheticAuthenticationTests.cs`
+- [X] T033 Add persistence and reset integration tests in `tests/EmrSimulator.Tests.Integration/SyntheticStatePersistenceTests.cs`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in priority order or in parallel by provider family.
 
@@ -70,26 +70,26 @@
 
 ### Tests for User Story 1
 
-- [ ] T034 [P] [US1] Add Epic endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Epic/EpicEndpointCatalogTests.cs`
-- [ ] T035 [P] [US1] Add Epic launch and OAuth integration tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicLaunchOAuthTests.cs`
-- [ ] T036 [P] [US1] Add Epic FHIR resource response contract tests in `tests/EmrSimulator.Tests.Contracts/Epic/EpicFhirContractTests.cs`
-- [ ] T037 [P] [US1] Add Epic reports and devices integration tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicReportDeviceWorkflowTests.cs`
-- [ ] T038 [P] [US1] Add Epic protected-flow auth failure tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicAuthFailureTests.cs`
+- [X] T034 [P] [US1] Add Epic endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Epic/EpicEndpointCatalogTests.cs`
+- [X] T035 [P] [US1] Add Epic launch and OAuth integration tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicLaunchOAuthTests.cs`
+- [X] T036 [P] [US1] Add Epic FHIR resource response contract tests in `tests/EmrSimulator.Tests.Contracts/Epic/EpicFhirContractTests.cs`
+- [X] T037 [P] [US1] Add Epic reports and devices integration tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicReportDeviceWorkflowTests.cs`
+- [X] T038 [P] [US1] Add Epic protected-flow auth failure tests in `tests/EmrSimulator.Tests.Integration/Epic/EpicAuthFailureTests.cs`
 
 ### Implementation for User Story 1
 
-- [ ] T039 [US1] Seed Epic launch, OAuth, FHIR, PDF, report, device, auth, and register catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
-- [ ] T040 [P] [US1] Add Epic contract response DTOs and sample builders in `src/EmrSimulator.Contracts/Epic/EpicContracts.cs`
-- [ ] T041 [P] [US1] Add Epic Application handler interface in `src/EmrSimulator.Application/Providers/Epic/IEpicSimulatorService.cs`
-- [ ] T042 [US1] Implement Epic session, OAuth, and token behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicLaunchOAuthService.cs`
-- [ ] T043 [US1] Implement Epic FHIR metadata, patient, observation, diagnostic report, and binary response behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicFhirService.cs`
-- [ ] T044 [US1] Implement Epic PDF conversion behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicPdfService.cs`
-- [ ] T045 [US1] Implement Epic report save/list/retrieve/data-file/review/compare/convert behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicReportsService.cs`
-- [ ] T046 [US1] Implement Epic device start/abort and launcher registration behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicDeviceWorkflowService.cs`
-- [ ] T047 [US1] Map native Epic compatibility routes in `src/EmrSimulator.Api/EndpointMapping/EpicEndpointMappings.cs`
-- [ ] T048 [US1] Register Epic services and route mappings in `src/EmrSimulator.Api/Program.cs`
-- [ ] T049 [US1] Record Epic request logs and verification evidence in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicVerificationRecorder.cs`
-- [ ] T050 [US1] Document Epic local connector configuration in `specs/004-external-emr-endpoints/verification/epic-smoke-test.md`
+- [X] T039 [US1] Seed Epic launch, OAuth, FHIR, PDF, report, device, auth, and register catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
+- [X] T040 [P] [US1] Add Epic contract response DTOs and sample builders in `src/EmrSimulator.Contracts/Epic/EpicContracts.cs`
+- [X] T041 [P] [US1] Add Epic Application handler interface in `src/EmrSimulator.Application/Providers/Epic/IEpicSimulatorService.cs`
+- [X] T042 [US1] Implement Epic session, OAuth, and token behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicLaunchOAuthService.cs`
+- [X] T043 [US1] Implement Epic FHIR metadata, patient, observation, diagnostic report, and binary response behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicFhirService.cs`
+- [X] T044 [US1] Implement Epic PDF conversion behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicPdfService.cs`
+- [X] T045 [US1] Implement Epic report save/list/retrieve/data-file/review/compare/convert behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicReportsService.cs`
+- [X] T046 [US1] Implement Epic device start/abort and launcher registration behavior in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicDeviceWorkflowService.cs`
+- [X] T047 [US1] Map native Epic compatibility routes in `src/EmrSimulator.Api/EndpointMapping/EpicEndpointMappings.cs`
+- [X] T048 [US1] Register Epic services and route mappings in `src/EmrSimulator.Api/Program.cs`
+- [X] T049 [US1] Record Epic request logs and verification evidence in `src/EmrSimulator.Infrastructure/Providers/Epic/EpicVerificationRecorder.cs`
+- [X] T050 [US1] Document Epic local connector configuration in `specs/004-external-emr-endpoints/verification/epic-smoke-test.md`
 
 **Checkpoint**: Epic MVP is independently runnable and testable without Cerner, Athena, or Altera implementation.
 
@@ -103,27 +103,27 @@
 
 ### Tests for User Story 2
 
-- [ ] T051 [P] [US2] Add Cerner endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Cerner/CernerEndpointCatalogTests.cs`
-- [ ] T052 [P] [US2] Add VitalsLink REST contract tests in `tests/EmrSimulator.Tests.Contracts/Cerner/VitalsLinkContractTests.cs`
-- [ ] T053 [P] [US2] Add VitalsLink workflow integration tests in `tests/EmrSimulator.Tests.Integration/Cerner/VitalsLinkWorkflowTests.cs`
-- [ ] T054 [P] [US2] Add HL7 TCP/MLLP ACK/NAK smoke tests in `tests/EmrSimulator.Tests.Integration/Cerner/Hl7MllpListenerTests.cs`
-- [ ] T055 [P] [US2] Add Cerner Midmark-facing service route tests in `tests/EmrSimulator.Tests.Contracts/Cerner/CernerMidmarkServiceTests.cs`
+- [X] T051 [P] [US2] Add Cerner endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Cerner/CernerEndpointCatalogTests.cs`
+- [X] T052 [P] [US2] Add VitalsLink REST contract tests in `tests/EmrSimulator.Tests.Contracts/Cerner/VitalsLinkContractTests.cs`
+- [X] T053 [P] [US2] Add VitalsLink workflow integration tests in `tests/EmrSimulator.Tests.Integration/Cerner/VitalsLinkWorkflowTests.cs`
+- [X] T054 [P] [US2] Add HL7 TCP/MLLP ACK/NAK smoke tests in `tests/EmrSimulator.Tests.Integration/Cerner/Hl7MllpListenerTests.cs`
+- [X] T055 [P] [US2] Add Cerner Midmark-facing service route tests in `tests/EmrSimulator.Tests.Contracts/Cerner/CernerMidmarkServiceTests.cs`
 
 ### Implementation for User Story 2
 
-- [ ] T056 [US2] Seed Cerner VitalsLink, HL7, and Midmark-facing service catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
-- [ ] T057 [P] [US2] Add Cerner contract response DTOs and sample builders in `src/EmrSimulator.Contracts/Cerner/CernerContracts.cs`
-- [ ] T058 [P] [US2] Add Cerner Application handler interfaces in `src/EmrSimulator.Application/Providers/Cerner/ICernerSimulatorService.cs`
-- [ ] T059 [US2] Implement Cerner VitalsLink authentication and tenant header behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkAuthService.cs`
-- [ ] T060 [US2] Implement Cerner barcode, personnel, location, encounter, and patient behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkClinicalService.cs`
-- [ ] T061 [US2] Implement Cerner device registration, heartbeat, vitals posting, and device removal behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkDeviceService.cs`
-- [ ] T062 [US2] Implement HL7 MLLP framing, parsing, ACK/NAK, and message persistence in `src/EmrSimulator.Infrastructure/Hl7/Hl7MllpService.cs`
-- [ ] T063 [US2] Add hosted HL7 TCP listener configuration and lifecycle in `src/EmrSimulator.Infrastructure/Hl7/Hl7MllpHostedService.cs`
-- [ ] T064 [US2] Implement Cerner ADT patient, physician, HL7 message, and pending-test service behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/CernerMidmarkService.cs`
-- [ ] T065 [US2] Map native Cerner VitalsLink and Midmark-facing HTTP routes in `src/EmrSimulator.Api/EndpointMapping/CernerEndpointMappings.cs`
-- [ ] T066 [US2] Register Cerner services, routes, and HL7 hosted service in `src/EmrSimulator.Api/Program.cs`
-- [ ] T067 [US2] Record Cerner REST and HL7 verification evidence in `src/EmrSimulator.Infrastructure/Providers/Cerner/CernerVerificationRecorder.cs`
-- [ ] T068 [US2] Document Cerner REST and HL7 local connector configuration in `specs/004-external-emr-endpoints/verification/cerner-smoke-test.md`
+- [X] T056 [US2] Seed Cerner VitalsLink, HL7, and Midmark-facing service catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
+- [X] T057 [P] [US2] Add Cerner contract response DTOs and sample builders in `src/EmrSimulator.Contracts/Cerner/CernerContracts.cs`
+- [X] T058 [P] [US2] Add Cerner Application handler interfaces in `src/EmrSimulator.Application/Providers/Cerner/ICernerSimulatorService.cs`
+- [X] T059 [US2] Implement Cerner VitalsLink authentication and tenant header behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkAuthService.cs`
+- [X] T060 [US2] Implement Cerner barcode, personnel, location, encounter, and patient behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkClinicalService.cs`
+- [X] T061 [US2] Implement Cerner device registration, heartbeat, vitals posting, and device removal behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/VitalsLinkDeviceService.cs`
+- [X] T062 [US2] Implement HL7 MLLP framing, parsing, ACK/NAK, and message persistence in `src/EmrSimulator.Infrastructure/Hl7/Hl7MllpService.cs`
+- [X] T063 [US2] Add hosted HL7 TCP listener configuration and lifecycle in `src/EmrSimulator.Infrastructure/Hl7/Hl7MllpHostedService.cs`
+- [X] T064 [US2] Implement Cerner ADT patient, physician, HL7 message, and pending-test service behavior in `src/EmrSimulator.Infrastructure/Providers/Cerner/CernerMidmarkService.cs`
+- [X] T065 [US2] Map native Cerner VitalsLink and Midmark-facing HTTP routes in `src/EmrSimulator.Api/EndpointMapping/CernerEndpointMappings.cs`
+- [X] T066 [US2] Register Cerner services, routes, and HL7 hosted service in `src/EmrSimulator.Api/Program.cs`
+- [X] T067 [US2] Record Cerner REST and HL7 verification evidence in `src/EmrSimulator.Infrastructure/Providers/Cerner/CernerVerificationRecorder.cs`
+- [X] T068 [US2] Document Cerner REST and HL7 local connector configuration in `specs/004-external-emr-endpoints/verification/cerner-smoke-test.md`
 
 **Checkpoint**: Cerner workflows are independently runnable and do not require Epic, Athena, or Altera implementation.
 
@@ -137,26 +137,26 @@
 
 ### Tests for User Story 3
 
-- [ ] T069 [P] [US3] Add Athena/Centricity endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Unity/AthenaEndpointCatalogTests.cs`
-- [ ] T070 [P] [US3] Add Altera/Allscripts endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Unity/AlteraEndpointCatalogTests.cs`
-- [ ] T071 [P] [US3] Add Unity SOAP/XML envelope integration tests in `tests/EmrSimulator.Tests.Integration/Unity/UnitySoapEnvelopeTests.cs`
-- [ ] T072 [P] [US3] Add Altera ASMX framework method tests in `tests/EmrSimulator.Tests.Integration/Unity/AlteraFrameworkAsmxTests.cs`
-- [ ] T073 [P] [US3] Add Unity token and auth failure tests in `tests/EmrSimulator.Tests.Integration/Unity/UnityAuthenticationTests.cs`
+- [X] T069 [P] [US3] Add Athena/Centricity endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Unity/AthenaEndpointCatalogTests.cs`
+- [X] T070 [P] [US3] Add Altera/Allscripts endpoint catalog coverage tests in `tests/EmrSimulator.Tests.Contracts/Unity/AlteraEndpointCatalogTests.cs`
+- [X] T071 [P] [US3] Add Unity SOAP/XML envelope integration tests in `tests/EmrSimulator.Tests.Integration/Unity/UnitySoapEnvelopeTests.cs`
+- [X] T072 [P] [US3] Add Altera ASMX framework method tests in `tests/EmrSimulator.Tests.Integration/Unity/AlteraFrameworkAsmxTests.cs`
+- [X] T073 [P] [US3] Add Unity token and auth failure tests in `tests/EmrSimulator.Tests.Integration/Unity/UnityAuthenticationTests.cs`
 
 ### Implementation for User Story 3
 
-- [ ] T074 [US3] Seed Athena Unity, Athena data-source, Altera Unity, Altera framework, and Altera browser-route catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
-- [ ] T075 [P] [US3] Add Unity and ASMX contract DTOs/envelope builders in `src/EmrSimulator.Contracts/Unity/UnityContracts.cs`
-- [ ] T076 [P] [US3] Add Unity and framework Application handler interfaces in `src/EmrSimulator.Application/Providers/Unity/IUnitySimulatorService.cs`
-- [ ] T077 [US3] Implement SOAP/XML envelope parsing and response envelope generation in `src/EmrSimulator.Infrastructure/Soap/SoapEnvelopeService.cs`
-- [ ] T078 [US3] Implement Athena Unity token, Magic, clinical summary, document, and data-source behavior in `src/EmrSimulator.Infrastructure/Providers/Athena/AthenaUnityService.cs`
-- [ ] T079 [US3] Implement Altera Unity token, Magic, ReturnMagicJSON, validation, and retire-token behavior in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraUnityService.cs`
-- [ ] T080 [US3] Implement Altera framework ASMX file, report, XBAP, calibration, settings, and notification behavior in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraFrameworkService.cs`
-- [ ] T081 [US3] Implement Altera browser route deterministic URL outcomes in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraBrowserRouteService.cs`
-- [ ] T082 [US3] Map Unity, ASMX, and browser compatibility routes in `src/EmrSimulator.Api/EndpointMapping/UnityEndpointMappings.cs`
-- [ ] T083 [US3] Register Athena, Altera, SOAP/XML, and framework services in `src/EmrSimulator.Api/Program.cs`
-- [ ] T084 [US3] Record Unity/framework verification evidence in `src/EmrSimulator.Infrastructure/Providers/Unity/UnityVerificationRecorder.cs`
-- [ ] T085 [US3] Document Athena and Altera local connector configuration in `specs/004-external-emr-endpoints/verification/unity-framework-smoke-test.md`
+- [X] T074 [US3] Seed Athena Unity, Athena data-source, Altera Unity, Altera framework, and Altera browser-route catalog entries in `src/EmrSimulator.Infrastructure/SeedData/external-emr-endpoint-contracts.json`
+- [X] T075 [P] [US3] Add Unity and ASMX contract DTOs/envelope builders in `src/EmrSimulator.Contracts/Unity/UnityContracts.cs`
+- [X] T076 [P] [US3] Add Unity and framework Application handler interfaces in `src/EmrSimulator.Application/Providers/Unity/IUnitySimulatorService.cs`
+- [X] T077 [US3] Implement SOAP/XML envelope parsing and response envelope generation in `src/EmrSimulator.Infrastructure/Soap/SoapEnvelopeService.cs`
+- [X] T078 [US3] Implement Athena Unity token, Magic, clinical summary, document, and data-source behavior in `src/EmrSimulator.Infrastructure/Providers/Athena/AthenaUnityService.cs`
+- [X] T079 [US3] Implement Altera Unity token, Magic, ReturnMagicJSON, validation, and retire-token behavior in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraUnityService.cs`
+- [X] T080 [US3] Implement Altera framework ASMX file, report, XBAP, calibration, settings, and notification behavior in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraFrameworkService.cs`
+- [X] T081 [US3] Implement Altera browser route deterministic URL outcomes in `src/EmrSimulator.Infrastructure/Providers/Altera/AlteraBrowserRouteService.cs`
+- [X] T082 [US3] Map Unity, ASMX, and browser compatibility routes in `src/EmrSimulator.Api/EndpointMapping/UnityEndpointMappings.cs`
+- [X] T083 [US3] Register Athena, Altera, SOAP/XML, and framework services in `src/EmrSimulator.Api/Program.cs`
+- [X] T084 [US3] Record Unity/framework verification evidence in `src/EmrSimulator.Infrastructure/Providers/Unity/UnityVerificationRecorder.cs`
+- [X] T085 [US3] Document Athena and Altera local connector configuration in `specs/004-external-emr-endpoints/verification/unity-framework-smoke-test.md`
 
 **Checkpoint**: Athena/Centricity and Altera/Allscripts workflows are independently runnable with SOAP/XML-compatible contracts.
 
@@ -170,26 +170,26 @@
 
 ### Tests for User Story 4
 
-- [ ] T086 [P] [US4] Add endpoint coverage API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/EndpointCoverageApiTests.cs`
-- [ ] T087 [P] [US4] Add reset API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/SimulatorResetApiTests.cs`
-- [ ] T088 [P] [US4] Add verification evidence API tests in `tests/EmrSimulator.Tests.Integration/Admin/VerificationEvidenceApiTests.cs`
+- [X] T086 [P] [US4] Add endpoint coverage API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/EndpointCoverageApiTests.cs`
+- [X] T087 [P] [US4] Add reset API integration tests in `tests/EmrSimulator.Tests.Integration/Admin/SimulatorResetApiTests.cs`
+- [X] T088 [P] [US4] Add verification evidence API tests in `tests/EmrSimulator.Tests.Integration/Admin/VerificationEvidenceApiTests.cs`
 - [ ] T089 [P] [US4] Add Admin UI coverage component tests in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.spec.ts`
 - [ ] T090 [P] [US4] Add Admin UI reset/log component tests in `src/EmrSimulator.AdminUi/src/app/request-logs/request-logs.component.spec.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T091 [US4] Add endpoint coverage and verification methods to facade contract in `src/EmrSimulator.Application/ApplicationContracts.cs`
-- [ ] T092 [US4] Implement endpoint coverage, verification evidence, and reset facade behavior in `src/EmrSimulator.Infrastructure/EmrSimulatorFacade.cs`
+- [X] T091 [US4] Add endpoint coverage and verification methods to facade contract in `src/EmrSimulator.Application/ApplicationContracts.cs`
+- [X] T092 [US4] Implement endpoint coverage, verification evidence, and reset facade behavior in `src/EmrSimulator.Infrastructure/EmrSimulatorFacade.cs`
 - [ ] T093 [US4] Add admin/control API DTO mappings for coverage, evidence, and reset in `src/EmrSimulator.Api/EndpointMapping/AdminEndpointMappings.cs`
-- [ ] T094 [US4] Add endpoint coverage API client methods in `src/EmrSimulator.AdminUi/src/app/services/emr-simulator-api.service.ts`
-- [ ] T095 [P] [US4] Add endpoint coverage TypeScript models in `src/EmrSimulator.AdminUi/src/app/models/endpoint-coverage.model.ts`
-- [ ] T096 [US4] Implement endpoint coverage view in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.ts`
-- [ ] T097 [US4] Implement endpoint coverage template in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.html`
-- [ ] T098 [US4] Implement endpoint coverage styles in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.scss`
+- [X] T094 [US4] Add endpoint coverage API client methods in `src/EmrSimulator.AdminUi/src/app/services/emr-simulator-api.service.ts`
+- [X] T095 [P] [US4] Add endpoint coverage TypeScript models in `src/EmrSimulator.AdminUi/src/app/models/endpoint-coverage.model.ts`
+- [X] T096 [US4] Implement endpoint coverage view in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.ts`
+- [X] T097 [US4] Implement endpoint coverage template in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.html`
+- [X] T098 [US4] Implement endpoint coverage styles in `src/EmrSimulator.AdminUi/src/app/endpoint-coverage/endpoint-coverage.component.scss`
 - [ ] T099 [US4] Add reset controls and verification evidence to request logs view in `src/EmrSimulator.AdminUi/src/app/request-logs/request-logs.component.ts`
-- [ ] T100 [US4] Add navigation route for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.routes.ts`
-- [ ] T101 [US4] Update Admin UI shell navigation for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.html`
-- [ ] T102 [US4] Document operator coverage and reset workflow in `specs/004-external-emr-endpoints/verification/operator-coverage-smoke-test.md`
+- [X] T100 [US4] Add navigation route for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.routes.ts`
+- [X] T101 [US4] Update Admin UI shell navigation for endpoint coverage in `src/EmrSimulator.AdminUi/src/app/app.html`
+- [X] T102 [US4] Document operator coverage and reset workflow in `specs/004-external-emr-endpoints/verification/operator-coverage-smoke-test.md`
 
 **Checkpoint**: Operators can verify endpoint coverage and troubleshoot requests across all provider families.
 
@@ -199,18 +199,18 @@
 
 **Purpose**: Final hardening, docs, validation, and compatibility evidence across all stories.
 
-- [ ] T103 [P] Update local run and connector configuration instructions in `README.md`
+- [X] T103 [P] Update local run and connector configuration instructions in `README.md`
 - [ ] T104 [P] Update source endpoint implementation status notes in `.docs/external-emr-endpoints.md`
 - [ ] T105 [P] Update contract inventory implementation status notes in `.docs/external-emr-api-contracts.md`
 - [ ] T106 Add Swagger/OpenAPI summaries for `/api/v1` admin/control routes and document native HTTP compatibility route taxonomy in `src/EmrSimulator.Api/Program.cs`
-- [ ] T107 Add complete endpoint coverage verification results in `specs/004-external-emr-endpoints/verification/coverage-results.md`
-- [ ] T108 Run and record backend test results in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
-- [ ] T109 Run and record Admin UI build result in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
-- [ ] T110 Run and record native protocol smoke results in `specs/004-external-emr-endpoints/verification/protocol-smoke-samples.md`
-- [ ] T111 Run and record representative HTTP/FHIR and SOAP/XML response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
-- [ ] T112 Run and record HL7 TCP/MLLP ACK/NAK response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
-- [ ] T113 Validate final constitution gates in `specs/004-external-emr-endpoints/verification/constitution-gates.md`
-- [ ] T114 Run final Speckit consistency analysis and record outcome in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
+- [X] T107 Add complete endpoint coverage verification results in `specs/004-external-emr-endpoints/verification/coverage-results.md`
+- [X] T108 Run and record backend test results in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
+- [X] T109 Run and record Admin UI build result in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
+- [X] T110 Run and record native protocol smoke results in `specs/004-external-emr-endpoints/verification/protocol-smoke-samples.md`
+- [X] T111 Run and record representative HTTP/FHIR and SOAP/XML response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
+- [X] T112 Run and record HL7 TCP/MLLP ACK/NAK response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
+- [X] T113 Validate final constitution gates in `specs/004-external-emr-endpoints/verification/constitution-gates.md`
+- [X] T114 Run final Speckit consistency analysis and record outcome in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
 
 ---
 

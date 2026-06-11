@@ -5,6 +5,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http.Headers;
 
 namespace EmrSimulator.Tests.Integration;
 
@@ -29,6 +30,11 @@ public sealed class SimulatorWebApplicationFactory : WebApplicationFactory<Progr
             var dbContext = scope.ServiceProvider.GetRequiredService<EmrSimulatorDbContext>();
             dbContext.Database.EnsureCreated();
         });
+    }
+
+    protected override void ConfigureClient(HttpClient client)
+    {
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "synthetic-test-token");
     }
 
     protected override void Dispose(bool disposing)
