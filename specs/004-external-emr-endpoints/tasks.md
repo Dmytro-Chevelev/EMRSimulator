@@ -31,17 +31,17 @@
 **CRITICAL**: No user story work can begin until this phase is complete.
 
 - [ ] T007 Create endpoint contract domain enums and entities in `src/EmrSimulator.Domain/EndpointContracts.cs`
-- [ ] T008 [P] Create provider profile and synthetic credential domain entities in `src/EmrSimulator.Domain/ProviderProfiles.cs`
+- [ ] T008 [P] Extend existing `EmrProfile` with provider-profile settings and create synthetic credential domain entities in `src/EmrSimulator.Domain/ProviderProfiles.cs`
 - [ ] T009 [P] Create synthetic patient/report/device/document state entities in `src/EmrSimulator.Domain/SyntheticWorkflowState.cs`
 - [ ] T010 [P] Create HL7 message and verification evidence entities in `src/EmrSimulator.Domain/VerificationState.cs`
-- [ ] T011 Add endpoint contract and provider profile DTOs in `src/EmrSimulator.Contracts/EndpointContractDtos.cs`
+- [ ] T011 Add endpoint contract and provider profile DTOs backed by existing `EmrProfile` identity in `src/EmrSimulator.Contracts/EndpointContractDtos.cs`
 - [ ] T012 [P] Add synthetic auth, reset, request log, and verification DTOs in `src/EmrSimulator.Contracts/SimulatorOperationDtos.cs`
 - [ ] T013 Add protocol-neutral Application interfaces for catalog, dispatch, validation, auth, state, reset, logging, and evidence in `src/EmrSimulator.Application/ExternalEmrContracts.cs`
 - [ ] T014 [P] Add repository interfaces for endpoint contracts and verification evidence in `src/EmrSimulator.Application/Repositories/IEndpointContractRepository.cs`
 - [ ] T015 [P] Add repository interfaces for synthetic workflow state in `src/EmrSimulator.Application/Repositories/ISyntheticStateRepository.cs`
-- [ ] T016 Add EF Core DbSets for endpoint contracts, credentials, workflow state, and evidence in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
+- [ ] T016 Add EF Core DbSets for endpoint contracts, credentials, workflow state, and evidence, and wire provider-profile relationships to existing `EmrProfiles` in `src/EmrSimulator.Infrastructure/Persistence/EmrSimulatorDbContext.cs`
 - [ ] T017 [P] Add Fluent API mappings for endpoint contracts in `src/EmrSimulator.Infrastructure/Persistence/Configurations/EndpointContractConfiguration.cs`
-- [ ] T018 [P] Add Fluent API mappings for provider profiles and credentials in `src/EmrSimulator.Infrastructure/Persistence/Configurations/ProviderProfileConfiguration.cs`
+- [ ] T018 [P] Add Fluent API mappings for `EmrProfile` provider-profile settings and credentials in `src/EmrSimulator.Infrastructure/Persistence/Configurations/ProviderProfileConfiguration.cs`
 - [ ] T019 [P] Add Fluent API mappings for synthetic workflow state in `src/EmrSimulator.Infrastructure/Persistence/Configurations/SyntheticWorkflowStateConfiguration.cs`
 - [ ] T020 [P] Add Fluent API mappings for HL7 messages and verification evidence in `src/EmrSimulator.Infrastructure/Persistence/Configurations/VerificationStateConfiguration.cs`
 - [ ] T021 Implement endpoint catalog repository and seed loader in `src/EmrSimulator.Infrastructure/Persistence/EfEndpointContractRepository.cs`
@@ -52,7 +52,7 @@
 - [ ] T026 [P] Implement request logging service with endpoint contract metadata in `src/EmrSimulator.Infrastructure/Logging/ExternalEmrRequestLogger.cs`
 - [ ] T027 Implement deterministic scenario state service and operator reset service in `src/EmrSimulator.Infrastructure/Scenarios/SyntheticScenarioStateService.cs`
 - [ ] T028 Register foundational services and hosted protocol options in `src/EmrSimulator.Infrastructure/ServiceCollectionExtensions.cs`
-- [ ] T029 Add admin/control endpoints for catalog, verification evidence, and reset in `src/EmrSimulator.Api/Program.cs`
+- [ ] T029 Add `/api/v1` admin/control endpoints for catalog, verification evidence, and reset in `src/EmrSimulator.Api/Program.cs`
 - [ ] T030 [P] Add endpoint catalog schema tests in `tests/EmrSimulator.Tests.Unit/Persistence/EndpointContractConfigurationTests.cs`
 - [ ] T031 [P] Add tolerant contract validation tests in `tests/EmrSimulator.Tests.Unit/ContractValidationTests.cs`
 - [ ] T032 [P] Add synthetic authentication tests in `tests/EmrSimulator.Tests.Unit/SyntheticAuthenticationTests.cs`
@@ -202,13 +202,15 @@
 - [ ] T103 [P] Update local run and connector configuration instructions in `README.md`
 - [ ] T104 [P] Update source endpoint implementation status notes in `.docs/external-emr-endpoints.md`
 - [ ] T105 [P] Update contract inventory implementation status notes in `.docs/external-emr-api-contracts.md`
-- [ ] T106 Add Swagger/OpenAPI summaries for admin/control and HTTP compatibility routes in `src/EmrSimulator.Api/Program.cs`
+- [ ] T106 Add Swagger/OpenAPI summaries for `/api/v1` admin/control routes and document native HTTP compatibility route taxonomy in `src/EmrSimulator.Api/Program.cs`
 - [ ] T107 Add complete endpoint coverage verification results in `specs/004-external-emr-endpoints/verification/coverage-results.md`
 - [ ] T108 Run and record backend test results in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
 - [ ] T109 Run and record Admin UI build result in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
 - [ ] T110 Run and record native protocol smoke results in `specs/004-external-emr-endpoints/verification/protocol-smoke-samples.md`
-- [ ] T111 Validate final constitution gates in `specs/004-external-emr-endpoints/verification/constitution-gates.md`
-- [ ] T112 Run final Speckit consistency analysis and record outcome in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
+- [ ] T111 Run and record representative HTTP/FHIR and SOAP/XML response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
+- [ ] T112 Run and record HL7 TCP/MLLP ACK/NAK response-time verification for SC-003 in `specs/004-external-emr-endpoints/verification/performance-results.md`
+- [ ] T113 Validate final constitution gates in `specs/004-external-emr-endpoints/verification/constitution-gates.md`
+- [ ] T114 Run final Speckit consistency analysis and record outcome in `specs/004-external-emr-endpoints/verification/implementation-verification.md`
 
 ---
 
@@ -249,6 +251,7 @@
 - US3 tests T069-T073 can run in parallel; Unity DTO/interface tasks T075-T076 can run in parallel before service implementation.
 - US4 tests T086-T090 can run in parallel; TypeScript model task T095 can run in parallel with API work after service contracts exist.
 - Polish docs T103-T105 can run in parallel after provider story behavior is known.
+- Performance verification tasks T111-T112 can run in parallel after HTTP/SOAP/HL7 story behavior is implemented.
 
 ## Parallel Example: User Story 1
 

@@ -7,7 +7,7 @@
 
 Implement the documented external EMR compatibility surface so existing Epic, Cerner, Athena/Centricity, and Altera/Allscripts connectors can point at the simulator without connector or bridge changes. The plan preserves the native connector-facing contracts from `.docs/external-emr-endpoints.md` and `.docs/external-emr-api-contracts.md`: REST/FHIR HTTP paths, SOAP/XML-compatible WCF/ASMX-style operations, HL7 TCP/MLLP boundaries, provider-compatible synthetic authentication, tolerant known serializer variants, persisted synthetic state until operator reset, request logging, and verification evidence.
 
-The implementation approach is additive: keep Admin/control APIs versioned under `/api/v1`, add a persisted endpoint-contract catalog and scenario state model, route native compatibility traffic through provider-specific Application interfaces, host HTTP/SOAP-compatible/HL7 transport boundaries in Api/Infrastructure, and expose coverage/log/reset/verification controls through the existing Admin UI pattern.
+The implementation approach is additive: keep simulator-owned Admin/control APIs versioned under `/api/v1`, add a persisted endpoint-contract catalog and scenario state model, route native compatibility traffic through provider-specific Application interfaces, host HTTP/SOAP-compatible/HL7 transport boundaries in Api/Infrastructure, and expose coverage/log/reset/verification controls through the existing Admin UI pattern. Provider compatibility boundaries are contract adapters for external connector protocols, not new simulator management APIs.
 
 ## Technical Context
 
@@ -33,7 +33,7 @@ The implementation approach is additive: keep Admin/control APIs versioned under
 | Clean Architecture and Explicit Boundaries | Domain/Application do not depend on transport, persistence, UI, or provider host details | Pass | Application interfaces own dispatch/validation contracts; Api/Infrastructure host HTTP/SOAP/HL7 and EF Core implementation |
 | Observable, Tested, and Versioned Changes | Tests, request logs, Swagger/OpenAPI, docs, and verification evidence are planned | Pass | Contract/integration/protocol tests, request log extension, verification evidence, compatibility contract, quickstart |
 
-**Route-versioning note**: Admin/control APIs remain under `/api/v1`. Native connector-facing compatibility routes intentionally preserve source-document paths such as `/Midmark`, `/Pdf/convert`, `/IQFrameworkWebService/IQConnectIF.asmx`, VitalsLink relative paths, and HL7 TCP/MLLP because those are provider contract surfaces. This is not treated as a constitution violation; it satisfies Provider Contract Fidelity while keeping simulator management APIs versioned.
+**Route-versioning taxonomy**: The constitution route-versioning gate applies to simulator-owned Admin/control APIs, which remain under `/api/v1`. Native connector-facing compatibility boundaries are provider contract adapters whose path/action/framing is controlled by the source documents, not by the simulator API taxonomy. They intentionally preserve paths such as `/Midmark`, `/Pdf/convert`, `/IQFrameworkWebService/IQConnectIF.asmx`, VitalsLink relative paths, and HL7 TCP/MLLP framing to satisfy Provider Contract Fidelity. Any new simulator-owned HTTP management endpoint introduced for this feature MUST be placed under `/api/v1`.
 
 ## Project Structure
 
@@ -107,7 +107,7 @@ See [data-model.md](data-model.md), [contracts/external-emr-compatibility-contra
 Design outputs:
 
 - Persistent endpoint-contract catalog with provider, protocol, path/action, source document, serializer variants, auth requirement, support status, and verification status.
-- Provider profiles with native base URL/HL7 settings and synthetic credential sets.
+- Provider profile settings added to the existing `EmrProfile` aggregate, including native base URL/HL7 settings and synthetic credential sets.
 - Persisted synthetic scenario state for patients, reports, device registrations, documents, HL7 messages, request logs, and verification evidence.
 - Contract-preservation checklist for Epic, Cerner, Athena/Centricity, and Altera/Allscripts surfaces.
 - Quickstart for backend/Admin UI startup and provider smoke workflows.

@@ -45,15 +45,11 @@ Represents one documented endpoint, SOAP operation, HL7 boundary, or data-source
 
 ### ProviderProfile
 
-Extends the existing EMR profile concept with native contract configuration.
+Feature term for the existing `EmrProfile` aggregate extended with native contract configuration. Implementation should not create a parallel provider-profile root entity unless a later design change explicitly retires or replaces `EmrProfile`.
 
 **Fields**:
 
-- `Id`
-- `Name`
-- `Provider`
-- `Enabled`
-- `BaseUrl`
+- Existing `EmrProfile` identity and display fields: `Id`, `Name`, `Provider`, `Enabled`, and `BaseUrl`
 - `NativeBaseUrl`: local connector-facing base address for HTTP/SOAP paths
 - `Hl7Host`: local HL7 listener host when applicable
 - `Hl7Port`: local HL7 listener port when applicable
@@ -70,8 +66,8 @@ Extends the existing EMR profile concept with native contract configuration.
 
 **Relationships**:
 
-- One `ProviderProfile` owns many `SyntheticScenario` records.
-- One `ProviderProfile` can own one active synthetic credential set.
+- One existing `EmrProfile` owns many `SyntheticScenario` records through provider-profile configuration.
+- One existing `EmrProfile` can own one active synthetic credential set.
 
 ### SyntheticCredentialSet
 
