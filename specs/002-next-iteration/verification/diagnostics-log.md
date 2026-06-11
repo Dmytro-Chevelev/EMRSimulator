@@ -34,7 +34,7 @@ Each record per `contracts/verification-contract.md`:
 | Field | Value |
 |-------|-------|
 | ID | `D002-npx-no-executable` |
-| Command | `npx ng build` |
+| Command | `npm run build` |
 | CWD | `C:\Projects\Midmark\src\EmrSimulator\src\EmrSimulator.AdminUi` |
 | Error Signature | `npm error could not determine executable to run` |
 | Likely Cause | `@angular/cli` was listed in `devDependencies` but not installed; `npx` can only resolve to local or npx cache — neither had a valid binary. |
@@ -94,5 +94,5 @@ Each record per `contracts/verification-contract.md`:
 | CWD | `C:\Projects\Midmark\src\EmrSimulator\src\EmrSimulator.AdminUi` |
 | Error Signature | `X [ERROR] Could not resolve "@angular/core"` |
 | Likely Cause | Three successive `npm install` calls with `--legacy-peer-deps` (first full install, then `@angular/cli@20.1.0`, then `nanoid@^3.3.7`) caused npm to remove 16 packages and change 217 — likely evicting `@angular/core` symlinks from `node_modules/.package-lock.json`. The cascading peer resolution under `--legacy-peer-deps` is particularly fragile when packages are added piecemeal. |
-| Next Action | 1. Delete `node_modules` and `package-lock.json`. 2. Ensure `package.json` has all Angular packages pinned at exact `20.1.0` and `nanoid: "3.3.7"`. 3. Run single `npm install --legacy-peer-deps` from `src/EmrSimulator.AdminUi`. 4. Run `npx ng build`. |
-| **Status** | **Open** |
+| Next Action | Resolved in Iteration 3 by deleting stale dependency artifacts, running one clean `npm install --legacy-peer-deps`, using exact package pins, and validating `npm run build` exit 0. |
+| **Status** | **Resolved** |

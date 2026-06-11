@@ -9,7 +9,7 @@ A local, offline EMR simulator that emulates Epic, Cerner, Altera, Athena Flow, 
 | API | .NET 8 / ASP.NET Core minimal API (`/api/v1`) |
 | Admin UI | Angular 20+ standalone app |
 | Testing | xUnit + FluentAssertions |
-| Storage | In-memory (SQLite planned) |
+| Storage | SQLite via EF Core, with in-memory simulator support |
 
 ## Project Structure
 
@@ -38,19 +38,21 @@ tests/
 ### Backend API
 
 ```powershell
-cd src/EmrSimulator.Api
-dotnet run
+dotnet run --project src/EmrSimulator.Api/EmrSimulator.Api.csproj
 ```
 
-Swagger UI is available at `http://localhost:<port>/swagger`.
+Swagger UI is available at `http://localhost:5288/swagger` when using the default development launch profile.
 
 ### Admin UI
 
 ```powershell
 cd src/EmrSimulator.AdminUi
-npm install
+npm install --legacy-peer-deps
 npm start
 ```
+
+Run Admin UI commands from `src/EmrSimulator.AdminUi`, where `angular.json` lives. The dev server starts at `http://localhost:4200` and proxies `/api` calls to the local API at `http://localhost:5288`.
+Angular CLI cache files under `src/EmrSimulator.AdminUi/.angular/` are local artifacts and are ignored by Git.
 
 ## Key Capabilities
 
@@ -82,4 +84,4 @@ dotnet test tests/EmrSimulator.Tests.Integration/EmrSimulator.Tests.Integration.
 
 ## Specs
 
-Full feature specification and implementation plan are in [`specs/001-emr-simulator-portal/`](specs/001-emr-simulator-portal/).
+Current Iteration 3 feature specification and implementation plan are in [`specs/003-iteration-3/`](specs/003-iteration-3/).
