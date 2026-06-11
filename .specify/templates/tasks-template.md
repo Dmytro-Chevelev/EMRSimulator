@@ -20,10 +20,13 @@ description: "Task list template for feature implementation"
 
 ## Path Conventions
 
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume single project - adjust based on plan.md structure
+- **API**: `src/EmrSimulator.Api/`
+- **Application**: `src/EmrSimulator.Application/`
+- **Domain**: `src/EmrSimulator.Domain/`
+- **Infrastructure**: `src/EmrSimulator.Infrastructure/`
+- **Admin UI**: `src/EmrSimulator.AdminUi/`
+- **Tests**: `tests/EmrSimulator.Tests.Unit/`, `tests/EmrSimulator.Tests.Integration/`, `tests/EmrSimulator.Tests.Contracts/`
+- Paths shown below assume the EMR Simulator solution layout - adjust based on plan.md structure
 
 <!-- 
   ============================================================================
@@ -48,9 +51,9 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T001 Create the `src/EmrSimulator.*` and `tests/EmrSimulator.Tests.*` project structure per implementation plan
+- [ ] T002 Initialize the .NET 8 solution with ASP.NET Core, EF Core, Angular, and test dependencies
+- [ ] T003 [P] Configure linting, formatting, and nullable reference type rules
 
 ---
 
@@ -62,12 +65,12 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T004 Setup SQLite persistence, migrations, and EF Core Fluent API mapping
+- [ ] T005 [P] Implement provider routing and API versioning structure under `/api/v1`
+- [ ] T006 [P] Setup scenario engine, request logging, and error handling infrastructure
+- [ ] T007 Create base domain entities and contracts shared by all stories
+- [ ] T008 Configure environment and scenario configuration management
+- [ ] T009 [P] Add Swagger/OpenAPI and test harness baseline
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -88,10 +91,10 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T012 [P] [US1] Create [Entity1] model in src/EmrSimulator.Domain/[entity1].cs
+- [ ] T013 [P] [US1] Create [Entity2] model in src/EmrSimulator.Domain/[entity2].cs
+- [ ] T014 [US1] Implement [Service] in src/EmrSimulator.Application/[service].cs (depends on T012, T013)
+- [ ] T015 [US1] Implement [endpoint/feature] in src/EmrSimulator.Api/[location]/[file].cs
 - [ ] T016 [US1] Add validation and error handling
 - [ ] T017 [US1] Add logging for user story 1 operations
 
@@ -112,9 +115,9 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T020 [P] [US2] Create [Entity] model in src/EmrSimulator.Domain/[entity].cs
+- [ ] T021 [US2] Implement [Service] in src/EmrSimulator.Application/[service].cs
+- [ ] T022 [US2] Implement [endpoint/feature] in src/EmrSimulator.Api/[location]/[file].cs
 - [ ] T023 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
@@ -134,9 +137,9 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T026 [P] [US3] Create [Entity] model in src/EmrSimulator.Domain/[entity].cs
+- [ ] T027 [US3] Implement [Service] in src/EmrSimulator.Application/[service].cs
+- [ ] T028 [US3] Implement [endpoint/feature] in src/EmrSimulator.Api/[location]/[file].cs
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -150,7 +153,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] TXXX [P] Documentation updates in docs/
+- [ ] TXXX [P] Documentation updates in docs/ and `.docs/`
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/

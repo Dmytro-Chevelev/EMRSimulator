@@ -1,0 +1,25 @@
+bin/
+obj/
+src/**/bin/
+src/**/obj/
+tests/**/bin/
+tests/**/obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# Node / Angular artifacts
+node_modules/
+src/EmrSimulator.AdminUi/node_modules/
+dist/
+build/
+
+# Environment and temp files
+.env*
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
