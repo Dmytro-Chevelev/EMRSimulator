@@ -20,4 +20,7 @@ public interface IEmrSimulatorFacade
     ProviderRouteResult ExecuteProviderRoute(string provider, string route, string method, string? patientId = null, string? requestBody = null);
     ImportReport ImportPatients(string sourceFormat, string content);
     IReadOnlyList<RequestLogDto> GetRequestLogs();
+    IReadOnlyList<EndpointContractDto> GetEndpointContracts();
+    IReadOnlyList<VerificationEvidenceDto> GetVerificationEvidence(Guid? endpointContractId = null);
+    SimulatorResetResult ResetSyntheticState();
 }

@@ -42,6 +42,13 @@ public sealed class PersistenceSchemaTests
                 Assert.Contains("Appointments", tableNames);
                 Assert.Contains("Orders", tableNames);
                 Assert.Contains("Results", tableNames);
+                Assert.Contains("EndpointContracts", tableNames);
+                Assert.Contains("SyntheticCredentialSets", tableNames);
+                Assert.Contains("SyntheticReportStates", tableNames);
+                Assert.Contains("DeviceRegistrationStates", tableNames);
+                Assert.Contains("DocumentStates", tableNames);
+                Assert.Contains("Hl7MessageStates", tableNames);
+                Assert.Contains("VerificationEvidence", tableNames);
             }
         }
         finally

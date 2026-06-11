@@ -19,6 +19,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
         <a routerLink="/scenarios" routerLinkActive="active">Scenarios</a>
         <a routerLink="/data" routerLinkActive="active">Data</a>
         <a routerLink="/imports" routerLinkActive="active">Imports</a>
+        <a routerLink="/compatibility" routerLinkActive="active">Compatibility</a>
         <a routerLink="/request-logs" routerLinkActive="active">Request Logs</a>
       </nav>
 

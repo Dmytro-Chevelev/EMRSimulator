@@ -71,3 +71,43 @@ export interface ImportReport {
   rejectedCount: number;
   rows: ImportRow[];
 }
+
+export interface EndpointContract {
+  id: string;
+  contractKey: string;
+  provider: string;
+  contractFamily: string;
+  direction: string;
+  protocol: string;
+  method?: string;
+  pathPattern?: string;
+  actionName?: string;
+  purpose: string;
+  requestContractName: string;
+  responseContractName: string;
+  authRequired: boolean;
+  acceptedSerializerVariants: string;
+  supportStatus: string;
+  sourceDocument: string;
+  sourceAnchor: string;
+}
+
+export interface VerificationEvidence {
+  id: string;
+  endpointContractId: string;
+  emrProfileId: string;
+  scenarioId?: string;
+  verificationName: string;
+  expectedOutcome: string;
+  actualStatus: string;
+  actualResponseSummary?: string;
+  passed: boolean;
+  failureReason?: string;
+  verifiedAtUtc: string;
+  toolOrTestName: string;
+}
+
+export interface SimulatorResetResult {
+  resetGeneration: number;
+  message: string;
+}

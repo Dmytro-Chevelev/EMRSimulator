@@ -7,6 +7,12 @@ public sealed class EmrProfile : BaseEntity
     public string Name { get; set; } = string.Empty;
     public EmrProviderType Provider { get; set; }
     public string BaseUrl { get; set; } = string.Empty;
+    public string NativeBaseUrl { get; set; } = string.Empty;
+    public string? Hl7Host { get; set; }
+    public int? Hl7Port { get; set; }
+    public Guid? SyntheticCredentialSetId { get; set; }
+    public Guid? ActiveScenarioId { get; set; }
+    public int ResetGeneration { get; set; }
     public bool Enabled { get; set; } = true;
 }
 

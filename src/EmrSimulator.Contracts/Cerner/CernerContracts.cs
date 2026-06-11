@@ -1,0 +1,20 @@
+namespace EmrSimulator.Contracts.Cerner;
+
+public sealed record CernerAuthResponse(string SessionId, string Tenant, string Status);
+
+public sealed record CernerPatientResponse(string PatientId, string EncounterId, string FirstName, string LastName, string Mrn);
+
+public sealed record CernerDeviceResponse(string DeviceId, string InstanceId, string Status);
+
+public sealed record Hl7AckResponse(string ControlId, string AckCode, string Message);
+
+public static class CernerSampleBuilder
+{
+    public static CernerAuthResponse Auth() => new("synthetic-cerner-session", "synthetic-tenant", "Authenticated");
+
+    public static CernerPatientResponse Patient(string patientId = "CE-1001") => new(patientId, "ENC-1001", "Jordan", "Casey", "MRN-1001");
+
+    public static CernerDeviceResponse Device(string status) => new("MM-DEVICE-001", "INSTANCE-001", status);
+
+    public static Hl7AckResponse Ack(string controlId, bool accepted) => new(controlId, accepted ? "AA" : "AE", accepted ? "Accepted" : "Rejected");
+}
