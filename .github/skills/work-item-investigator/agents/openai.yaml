@@ -1,0 +1,5 @@
+interface:
+  display_name: Work Item Investigator
+  short_description: Investigate Azure DevOps bugs and related code to identify root cause and summarize evidence.
+  icon: magnifying-glass
+  color: blue

@@ -1,15 +1,16 @@
 using EmrSimulator.Application;
 using EmrSimulator.Contracts;
-using EmrSimulator.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmrSimulator.Tests.Integration;
 
-public class ScenarioFailureTests
+public class ScenarioFailureTests(SimulatorWebApplicationFactory factory) : IClassFixture<SimulatorWebApplicationFactory>
 {
     [Fact]
     public void Timeout_scenario_returns_gateway_timeout()
     {
-        var facade = new EmrSimulatorFacade(new InMemoryEmrSimulatorStore());
+        using var scope = factory.Services.CreateScope();
+        var facade = scope.ServiceProvider.GetRequiredService<IEmrSimulatorFacade>();
         facade.SetActiveScenario(ScenarioType.Timeout);
 
         var result = facade.ExecuteProviderRoute("epic", "/api/v1/emr/epic/patients/search", "GET");

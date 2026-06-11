@@ -1,14 +1,15 @@
 using EmrSimulator.Application;
-using EmrSimulator.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmrSimulator.Tests.Integration;
 
-public class PatientImportJsonTests
+public class PatientImportJsonTests(SimulatorWebApplicationFactory factory) : IClassFixture<SimulatorWebApplicationFactory>
 {
     [Fact]
     public void Json_source_name_can_be_recorded_for_import_report()
     {
-        var facade = new EmrSimulatorFacade(new InMemoryEmrSimulatorStore());
+        using var scope = factory.Services.CreateScope();
+        var facade = scope.ServiceProvider.GetRequiredService<IEmrSimulatorFacade>();
         var jsonLike = "EP-2001,MRN-2001,Avery,North,1990-05-01,Female";
 
         var report = facade.ImportPatients("json", jsonLike);

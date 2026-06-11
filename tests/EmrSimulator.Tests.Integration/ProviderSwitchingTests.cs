@@ -1,15 +1,16 @@
 using EmrSimulator.Application;
 using EmrSimulator.Contracts;
-using EmrSimulator.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmrSimulator.Tests.Integration;
 
-public class ProviderSwitchingTests
+public class ProviderSwitchingTests(SimulatorWebApplicationFactory factory) : IClassFixture<SimulatorWebApplicationFactory>
 {
     [Fact]
     public void Active_provider_changes_when_switching()
     {
-        var facade = new EmrSimulatorFacade(new InMemoryEmrSimulatorStore());
+        using var scope = factory.Services.CreateScope();
+        var facade = scope.ServiceProvider.GetRequiredService<IEmrSimulatorFacade>();
 
         var active = facade.SetActiveProvider(EmrProviderType.Cerner);
 
